@@ -17,21 +17,21 @@ const sendMailField = {
       "spellcheck": false
     }
   ],
-  "message1": "theme: %1",
+  "message1": "subject: %1",
   "args1": [
     {
       "type": "field_input",
-      "name": "THEME",
-      "text": "Enter theme",
+      "name": "SUBJECT",
+      "text": "Enter subject",
       "check": "String",
       "spellcheck": true
     }
   ],
-  "message2": "message: %1",
+  "message2": "body: %1",
   "args2": [
     {
       "type": "field_multilinetext",
-      "name": "MESSAGE",
+      "name": "BODY",
       "text": "Enter your message",
       "check": "String",
       "spellcheck": true

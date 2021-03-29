@@ -1,20 +1,20 @@
 const createIncident = {
   "type": "create_incident_field",
-  "message0": "theme: %1",
+  "message0": "subject: %1",
   "args0": [
     {
       "type": "field_input",
-      "name": "THEME",
-      "text": "Enter theme",
+      "name": "SUBJECT",
+      "text": "Enter subject",
       "check": "String",
       "spellcheck": true
     }
   ],
-  "message1": "message: %1",
+  "message1": "body: %1",
   "args1": [
     {
       "type": "field_multilinetext",
-      "name": "MESSAGE",
+      "name": "BODY",
       "text": "Enter your message",
       "check": "String",
       "spellcheck": true

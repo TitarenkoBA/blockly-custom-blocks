@@ -1,0 +1,39 @@
+.BlocklyApp-header {
+  background-color: #066279;
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.BlocklyApp-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  font-size: calc(10px + 2vmin);
+}
+
+.BlocklyApp-buttons button {
+  cursor: pointer;
+  height: 40px;
+  width: 100px;
+  color: black;
+  background-color: #ffffff;
+  border-radius: 10px;
+  margin: 20px;
+  transition: all 300ms;
+}
+
+.BlocklyApp-buttons button:hover {
+  cursor: pointer;
+  height: 40px;
+  width: 100px;
+  color: rgb(253, 250, 250);
+  background-color: #6577c4;
+  border-radius: 10px;
+  margin: 20px;
+}

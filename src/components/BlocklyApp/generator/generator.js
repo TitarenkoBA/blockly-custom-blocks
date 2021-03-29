@@ -6,8 +6,8 @@ Blockly.JavaScript['send_mail_field'] = function (block) {
     const emailObject = {
         emailFrom: validateEmail(getValue(block, 'FROM')),
         emailTo: validateEmail(getValue(block, 'TO')),
-        subject: getValue(block, 'THEME'),
-        message: getValue(block, 'MESSAGE')
+        subject: getValue(block, 'SUBJECT'),
+        message: getValue(block, 'BODY')
     };
 
     const code = validateObj(emailObject);
@@ -38,8 +38,8 @@ Blockly.JavaScript['run_script_field'] = function (block) {
 
 Blockly.JavaScript['create_incident_field'] = function (block) {
     const emailObject = {
-        subject: getValue(block, 'THEME'),
-        message: getValue(block, 'MESSAGE'),
+        subject: getValue(block, 'SUBJECT'),
+        message: getValue(block, 'BODY'),
         priority: getValue(block, 'PRIORITY'),
         email: validateEmail(getValue(block, 'RESP')),
     };

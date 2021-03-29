@@ -1,5 +1,5 @@
-export function getValue(block, item) {
-  return block.getFieldValue(item).trim() || null;
+export function getValue(block, field) {
+  return block.getFieldValue(field).trim() || null;
 };
 
 export function validateEmail(email) {
