@@ -1,14 +1,18 @@
 const sendMailField = {
   "type": "send_mail_field",
-  "message0": "send mail from %1 to %2",
-  "args0": [
+  "message0": "Send an email",
+  "message1": "from %1",
+  "args1": [
     {
       "type": "field_input",
       "name": "FROM",
       "text": "example@mail.com",
       "check": "String",
       "spellcheck": false
-    },
+    }
+  ],
+  "message2": "to %1",
+  "args2": [
     {
       "type": "field_input",
       "name": "TO",
@@ -17,8 +21,8 @@ const sendMailField = {
       "spellcheck": false
     }
   ],
-  "message1": "subject: %1",
-  "args1": [
+  "message3": "subject: %1",
+  "args3": [
     {
       "type": "field_input",
       "name": "SUBJECT",
@@ -27,8 +31,8 @@ const sendMailField = {
       "spellcheck": true
     }
   ],
-  "message2": "body: %1",
-  "args2": [
+  "message4": "body: %1",
+  "args4": [
     {
       "type": "field_multilinetext",
       "name": "BODY",

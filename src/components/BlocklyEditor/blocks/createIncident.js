@@ -1,7 +1,8 @@
 const createIncident = {
   "type": "create_incident_field",
-  "message0": "subject: %1",
-  "args0": [
+  "message0": "Create an incident",
+  "message1": "subject: %1",
+  "args1": [
     {
       "type": "field_input",
       "name": "SUBJECT",
@@ -10,8 +11,8 @@ const createIncident = {
       "spellcheck": true
     }
   ],
-  "message1": "body: %1",
-  "args1": [
+  "message2": "body: %1",
+  "args2": [
     {
       "type": "field_multilinetext",
       "name": "BODY",
@@ -20,8 +21,8 @@ const createIncident = {
       "spellcheck": true
     }
   ],
-  "message2": "priority: %1",
-  "args2": [
+  "message3": "priority: %1",
+  "args3": [
     {
       "type": "field_dropdown",
       "name": "PRIORITY",
@@ -35,8 +36,8 @@ const createIncident = {
       ]
     }
   ],
-  "message3": "responsible: %1",
-  "args3": [
+  "message4": "responsible: %1",
+  "args4": [
     {
       "type": "field_input",
       "name": "RESP",

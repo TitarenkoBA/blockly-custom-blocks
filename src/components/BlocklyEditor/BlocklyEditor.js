@@ -8,42 +8,36 @@ import BlocklyJS from 'blockly/javascript';
 
 import Blockly from 'blockly/core';
 
-import './BlocklyApp.css';
+import './BlocklyEditor.css';
 
 import './blocks/customblocks';
 import './generator/generator';
 
-const blocks =[
-  "send_mail_field",
-  "create_incident_field",
-  "run_script_field",
-  "controls_ifelse",
-  "logic_compare",
-  "logic_operation",
-  "controls_repeat_ext",
-  "logic_operation",
-  "logic_negate",
-  "logic_boolean",
-  "logic_null",
-  "logic_ternary",
-  "text_charAt",
-  "variables_get",
-  "variables_set",
-  "text",
-  "math_number"
-];
-
-class BlocklyApp extends React.Component {
+class BlocklyEditor extends React.Component {
   constructor(props) {
     super(props);
     this.simpleWorkspace = React.createRef();
+  }
+  state = {
+    blocks: this.props.blocks,
+    variables: this.props.variables,
+  };
+
+  componentDidMount() {
+    this.simpleWorkspace.current.workspace.registerButtonCallback("createStringVariable", (button) => {
+      Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), null, 'string')
+    });
+    this.simpleWorkspace.current.workspace.registerButtonCallback("createIntVariable", (button) => {
+      Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), null, 'int')
+    });
   }
 
   generateCode = () => {
     var code = BlocklyJS.workspaceToCode(
       this.simpleWorkspace.current.workspace
     );
-    console.log(code);
+    code = JSON.stringify(code);
+    console.log(JSON.parse(code));
   }
 
   saveWorkspace = () => {
@@ -58,9 +52,9 @@ class BlocklyApp extends React.Component {
 
   render() {
     return (
-      <div className="BlocklyApp">
-        <header className="BlocklyApp-header">
-          <div className="BlocklyApp-buttons">
+      <div className="BlocklyEditor">
+        <header className="BlocklyEditor-header">
+          <div className="BlocklyEditor-buttons">
             <button onClick={this.generateCode}>Convert</button>
             <button onClick={this.saveWorkspace}>Save</button>
           </div>
@@ -73,7 +67,7 @@ class BlocklyApp extends React.Component {
               wheel: true
             }}
             initialXml={this.loadWorkspace()}>
-            <BlocksList blocks={blocks} />
+            <BlocksList blocks={this.state.blocks} variables={this.state.variables} />
           </BlocklyComponent>
         </header>
       </div>
@@ -81,4 +75,4 @@ class BlocklyApp extends React.Component {
   }
 }
 
-export default BlocklyApp
+export default BlocklyEditor

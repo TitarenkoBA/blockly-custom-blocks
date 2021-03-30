@@ -1,10 +1,12 @@
 import React from 'react';
-import BlocklyApp from './components/BlocklyApp/BlocklyApp';
+import BlocklyEditor from './components/BlocklyEditor/BlocklyEditor';
+
+import { blocks, variables } from './components/BlocklyEditor/payload';
 
 class App extends React.Component {
   render() {
     return (
-      <BlocklyApp />
+      <BlocklyEditor blocks={blocks} variables={variables} />
     );
   }
 }

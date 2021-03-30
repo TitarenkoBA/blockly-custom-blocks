@@ -56,4 +56,10 @@ const Shadow = (p) => {
     return React.createElement("shadow", props, children);
 };
 
-export { Block, Category, Value, Field, Shadow }
+const Button = (p) => {
+    const { children, ...props } = p;
+    props.is = "blockly";
+    return React.createElement("button", props, children);
+}
+
+export { Block, Category, Value, Field, Shadow, Button }
