@@ -46,6 +46,7 @@ const createIncident = {
       "spellcheck": false
     }
   ],
+  "extensions": ["validator_for_email"],
   "colour": 50,
   "previousStatement": null,
   "nextStatement": null,

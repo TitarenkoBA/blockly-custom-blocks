@@ -1,11 +1,11 @@
 import * as Blockly from 'blockly/core';
 import 'blockly/javascript';
-import { getValue, validateEmail, validateObj } from '../utils/utils'
+import { getValue, validateObj } from '../utils/utils'
 
 Blockly.JavaScript['send_mail_field'] = function (block) {
     const emailObject = {
-        emailFrom: validateEmail(getValue(block, 'FROM')),
-        emailTo: validateEmail(getValue(block, 'TO')),
+        emailFrom: getValue(block, 'FROM'),
+        emailTo: getValue(block, 'TO'),
         subject: getValue(block, 'SUBJECT'),
         message: getValue(block, 'BODY')
     };
@@ -41,7 +41,7 @@ Blockly.JavaScript['create_incident_field'] = function (block) {
         subject: getValue(block, 'SUBJECT'),
         message: getValue(block, 'BODY'),
         priority: getValue(block, 'PRIORITY'),
-        email: validateEmail(getValue(block, 'RESP')),
+        email: getValue(block, 'RESP'),
     };
 
     const code = validateObj(emailObject);
@@ -52,4 +52,16 @@ Blockly.JavaScript['create_incident_field'] = function (block) {
     }
 
     return code;
+};
+
+Blockly.JavaScript['event_occur'] = function (block) {
+    const eventType = getValue(block, 'EVENT_TYPE');
+
+    if (eventType !== "NONE") {
+        // eslint-disable-next-line
+        const eventTypeJson = JSON.stringify(eventType);
+        return "OK";
+    } else {
+        return "Error: event type not selected!";
+    }
 };
