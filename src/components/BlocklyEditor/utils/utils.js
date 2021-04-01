@@ -1,3 +1,5 @@
+// import Blockly from 'blockly/core';
+
 export function getValue(block, field) {
   return block.getFieldValue(field).trim() || null;
 };
@@ -15,8 +17,21 @@ export function validateObj(obj) {
     if (obj[key] && obj[key] !== "NONE") {
       count++;
     } else {
-      err += "Error: wrong " + key + "!\n";
+      err += "Error: wrong " + key + "! \n";
     }
   });
-  return count === Object.keys(obj).length ? "OK" : err;
+  return count === Object.keys(obj).length ? "OK \n" : err;
 };
+
+export function validator(newValue) {
+  if (!validateEmail(newValue)) {
+    this.setWarningText('Wrong email!')
+  } else {
+    this.setWarningText(null);
+  }
+  return validateEmail(newValue);
+}
+
+export function clearTextField() {
+  
+}

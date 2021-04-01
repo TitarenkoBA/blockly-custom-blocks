@@ -3,7 +3,6 @@ import BlocklyJS from 'blockly/javascript';
 import Blockly from 'blockly/core';
 import BlocklyComponent from './Blockly';
 import Toolbox from './Toolbox';
-import { validateEmail } from './utils/utils'
 import './blocks/customblocks';
 import './generator/generator';
 import './BlocklyEditor.css';
@@ -14,57 +13,44 @@ class BlocklyEditor extends React.Component {
     this.simpleWorkspace = React.createRef();
   }
 
-  state = {
-    blocks: [...this.props.blocks],
-    variables: [...this.props.variables]
-  }
-
-  generateOptionsForEventOccurBlock() {
+  registerGeneratorOptionsForEventOccurBlock() {
     const eventOptions = this.props.eventTypes;
     Blockly.Extensions.register('dynamic_menu_extension',
       function (opts = eventOptions) {
         this.getInput('INPUT')
           .appendField(new Blockly.FieldDropdown(
             function (options = opts) {
-              return options.map(option => [option, option]);
+              let arr = options.map(option => [option, option]);
+              arr.unshift(["none", "NONE"]);
+              return arr;
             }), "EVENT_TYPE");
       }
     );
   }
 
-  addValidatorToEmailFields() {
-    Blockly.Extensions.register('validator_for_email',
-      function () {
-        ['FROM', 'TO', 'RESP'].forEach((name) => {
-          if (this.getField(name)) {
-            this.getField(name)
-              .setValidator((newValue) => validateEmail(newValue));
-          }
-        });
-      }
-    );
+  registerButtonCallbackFuncForAddVariableButtons(callbackKey, type) {
+    this.simpleWorkspace.current.workspace.registerButtonCallback(callbackKey, (button) => {
+      Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), null, type)
+    });
   }
 
-  registerButtonCallbackFuncForAddVariableButtons() {
-    this.simpleWorkspace.current.workspace.registerButtonCallback("createStringVariable", (button) => {
-      Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), null, 'string')
-    });
-    this.simpleWorkspace.current.workspace.registerButtonCallback("createIntVariable", (button) => {
-      Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), null, 'int')
-    }); 
+  clickOnTextFieldListener(event) {
+    if (event.type === Blockly.Events.UI) {
+      console.log(event.element)
+    }
   }
 
   componentDidMount() {
-    this.registerButtonCallbackFuncForAddVariableButtons();
-    this.generateOptionsForEventOccurBlock();
-    this.addValidatorToEmailFields();
+    this.registerButtonCallbackFuncForAddVariableButtons("createStringVariable", "string");
+    this.registerButtonCallbackFuncForAddVariableButtons("createIntVariable", "int");
+    this.registerGeneratorOptionsForEventOccurBlock();
     this.loadWorkspace();
+    Blockly.mainWorkspace.addChangeListener(this.clickOnTextFieldListener);
   }
 
   componentWillUnmount() {
     Blockly.Extensions.unregister('dynamic_menu_extension');
-    Blockly.Extensions.unregister('validator_for_email');
-    Blockly.mainWorkspace.removeChangeListener(this.listenerForCheckingEmails);
+    Blockly.mainWorkspace.removeChangeListener(this.clickOnTextFieldListener);
   }
 
   generateCode = () => {
@@ -104,7 +90,7 @@ class BlocklyEditor extends React.Component {
               wheel: true
             }}
             initialXml={'<xml xmlns="http://www.w3.org/1999/xhtml"></xml>'}>
-            <Toolbox blocks={this.state.blocks} variables={this.state.variables} />
+            <Toolbox blocks={this.props.blocks} variables={this.props.variables} />
           </BlocklyComponent>
         </header>
       </div>

@@ -18,7 +18,7 @@ const createIncident = {
       "name": "BODY",
       "text": "Enter your message",
       "check": "String",
-      "spellcheck": true
+      "spellcheck": true,
     }
   ],
   "message3": "priority: %1",
@@ -46,7 +46,6 @@ const createIncident = {
       "spellcheck": false
     }
   ],
-  "extensions": ["validator_for_email"],
   "colour": 50,
   "previousStatement": null,
   "nextStatement": null,
