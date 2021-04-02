@@ -33,7 +33,7 @@ Blockly.JavaScript['run_script_field'] = function (block) {
     } catch(err) {
         return "Error: wrong script! \n";
     }
-    return "OK"
+    return "OK \n"
 };
 
 Blockly.JavaScript['create_incident_field'] = function (block) {
@@ -69,4 +69,19 @@ Blockly.JavaScript['event_occur'] = function (block) {
     } else {
         return "Error: event type not selected! \n";
     }
+};
+
+Blockly.JavaScript['variables_adding_form'] = function (block) {
+    // It's not generate the code
+    return null
+};
+
+Blockly.JavaScript['variables_get_custom'] = function (block) {
+    // It's not generate the code
+    return null
+};
+
+Blockly.JavaScript['variables_set_custom'] = function (block) {
+    // It's not generate the code
+    return null
 };

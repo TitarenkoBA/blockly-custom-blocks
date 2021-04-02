@@ -30,14 +30,21 @@ class BlocklyEditor extends React.Component {
 
   registerButtonCallbackFuncForAddVariableButtons(callbackKey, type) {
     this.simpleWorkspace.current.workspace.registerButtonCallback(callbackKey, (button) => {
-      Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), null, type)
+      const xml_text = '<block type="variables_get"><field name="var5" variabletype="string">VAR5</field></block>';
+      const xmlDom = Blockly.Xml.textToDom(xml_text)
+      Blockly.Xml.appendDomToWorkspace(xmlDom, button.getTargetWorkspace());
+      // const name = prompt("Enter name of variable");
+      // const vars = [...this.state.vars];
+      // vars.push({ name, description: '', type });
+      // this.setState({vars,});
+      // Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), null, type)
     });
   }
 
   clickOnTextFieldListener(event) {
-    if (event.type === Blockly.Events.UI) {
-      console.log(event.element)
-    }
+    // if (event.type === Blockly.Events.UI) {
+    //   console.log(event.element)
+    // }
   }
 
   componentDidMount() {

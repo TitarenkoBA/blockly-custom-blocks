@@ -14,7 +14,7 @@ export const blocks = [
   "logic_ternary",
   "text_charAt",
   "text",
-  "math_number"
+  "math_number",
 ];
 
 export const variables = [
