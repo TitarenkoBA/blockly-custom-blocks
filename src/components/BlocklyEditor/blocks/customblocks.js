@@ -48,7 +48,11 @@ Blockly.Blocks['event_occur'] = {
 Blockly.Blocks['variables_adding_form'] = {
   init: function () {
     this.jsonInit(variablesAddingForm);
-    this.getField('INPUT').onMouseDown_ = () => this.createVar(this);
+    this.getField('INPUT').EDITABLE = false;
+    this.getField('INPUT').onMouseDown_ = (e) => {
+      e.preventDefault();
+      this.createVar(this);
+    }
   },
   createVar: function (block) {
     const variable = {
@@ -58,10 +62,67 @@ Blockly.Blocks['variables_adding_form'] = {
     }
 
     const code = validateObj(variable);
+    
     if (code === "OK \n") {
+      this.setWarningText(null)
+      
       const toolbox = Blockly.mainWorkspace.toolbox_;
-      const elem = { ...Blockly.mainWorkspace.toolbox_.getToolboxItemById('categoryId').flyoutItems_[1] }
-      toolbox.contents_[1].flyoutItems_.push(elem);
+      // const item = new Blockly.ToolboxItem({ ...variable }, toolbox, toolbox.getToolboxItemById('categoryId'));
+      // toolbox.addToolboxItem_(item);
+      // const elem = { ...Blockly.mainWorkspace.toolbox_.getToolboxItemById('categoryVars').flyoutItems_[1] }
+      // toolbox.contents_[1].flyoutItems_.push(item);
+      // Blockly.mainWorkspace.toolbox_.getToolboxItemById('categoryVars')
+      // parseContents_(categoryDef)
+      // toolbox.getToolboxItemById('categoryVars').updateFlyoutContents()
+      // flyoutItems_
+      // Blockly.getMainWorkspace()
+      
+      const arr = [...toolbox.getToolboxItemById('categoryVars').getContents()];
+      // const itemGet = {...arr[1]};
+      // itemGet.blockxml.innerText = variable.name;
+      // itemGet.blockxml.innerHTML = `<field name="VAR" variabletype="${variable.type}" is="blockly">${variable.name}</field>`
+      // itemGet.blockxml.outerText = variable.name;
+      // itemGet.blockxml.innerHTML = `<block type="variables_get_custom" is="blockly"><field name="VAR" variabletype="${variable.type}" is="blockly">${variable.name}</field></block>`
+      // const domElem = elem.blockxml;
+      // const domToText = Blockly.Xml.domToText(domElem);
+      // const newDomElem = Blockly.Xml.textToDom(domToText)
+
+      const newVariable = {
+        newGetVariable: `<block 
+        xmlns="http://www.w3.org/1999/xhtml" 
+        type="variables_get_custom" 
+        is="blockly">
+          <field 
+            name="VAR"
+            variabletype="${variable.type}"
+            is="blockly"
+          >${variable.name}</field>
+        </block>`,
+        newSetVariable: `<block 
+        xmlns="http://www.w3.org/1999/xhtml" 
+        type="variables_set_custom" 
+        is="blockly">
+          <field 
+            name="VAR"
+            variabletype="${variable.type}"
+            is="blockly"
+          >${variable.name}</field>
+        </block>`
+      }
+      
+      const domNewVariable = {
+        domNewGetVariable: Blockly.Xml.textToDom(newVariable.newGetVariable),
+        domNewSetVariable: Blockly.Xml.textToDom(newVariable.newSetVariable),
+      }
+
+      const newArray = arr.map((item) => item.blockxml);
+
+      newArray.push(domNewVariable.domNewGetVariable, domNewVariable.domNewSetVariable,)
+      
+      toolbox.getToolboxItemById('categoryVars').updateFlyoutContents(newArray)
+
+    } else {
+      this.setWarningText('Error: empty field!');
     }
   }
 };
@@ -79,6 +140,5 @@ Blockly.Blocks['variables_set_custom'] = {
     this.jsonInit(variablesSet);
     this.getField('VAR').onMouseDown_ = (e) => e.preventDefault();
     this.getField('VAR').EDITABLE = false;
-
   }
 };

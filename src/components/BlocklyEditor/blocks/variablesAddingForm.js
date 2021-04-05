@@ -31,11 +31,12 @@ const variablesAddingForm = {
       "spellcheck": true,
     }
   ],
-  "message4": "Click here to create variable: %1",
+  "message4": "%1",
   "args4": [
     {
       "type": "field_input",
       "name": "INPUT",
+      "text": "Click here to create variable",
     }
   ],
   "colour": 50,

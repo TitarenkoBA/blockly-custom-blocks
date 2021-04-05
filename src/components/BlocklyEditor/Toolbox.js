@@ -13,7 +13,7 @@ class Toolbox extends React.Component {
         <Category name="Blocks">
           <BlocksInToolbox blocks={this.props.blocks} />
         </Category>
-        <Category name="Variables" toolboxitemid="categoryId">
+        <Category name="Variables" toolboxitemid="categoryVars">
           <Block type="variables_adding_form" />
           {/* <Button text="Create string variable" callbackKey="createStringVariable" />
           <Button text="Create integer variable" callbackKey="createIntVariable" /> */}
