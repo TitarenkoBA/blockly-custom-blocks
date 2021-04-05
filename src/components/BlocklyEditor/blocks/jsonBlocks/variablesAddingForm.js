@@ -35,10 +35,11 @@ const variablesAddingForm = {
   "args4": [
     {
       "type": "field_input",
-      "name": "INPUT",
+      "name": "INPUT_BUTTON",
       "text": "Click here to create variable",
     }
   ],
+  "extensions": ["clearing_text_field"],
   "colour": 50,
   "previousStatement": null,
   "nextStatement": null,

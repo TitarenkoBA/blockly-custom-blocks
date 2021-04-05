@@ -10,6 +10,7 @@ const runTheScript = {
       "spellcheck": false
     }
   ],
+  "extensions": ["clearing_text_field"],
   "colour": 180,
   "previousStatement": null,
   "nextStatement": null,

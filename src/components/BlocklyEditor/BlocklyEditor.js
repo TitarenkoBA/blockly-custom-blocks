@@ -28,35 +28,31 @@ class BlocklyEditor extends React.Component {
     );
   }
 
-  registerButtonCallbackFuncForAddVariableButtons(callbackKey, type) {
-    this.simpleWorkspace.current.workspace.registerButtonCallback(callbackKey, (button) => {
-      const xml_text = '<block type="variables_get"><field name="var5" variabletype="string">VAR5</field></block>';
-      const xmlDom = Blockly.Xml.textToDom(xml_text)
-      Blockly.Xml.appendDomToWorkspace(xmlDom, button.getTargetWorkspace());
-      // const name = prompt("Enter name of variable");
-      // const vars = [...this.state.vars];
-      // vars.push({ name, description: '', type });
-      // this.setState({vars,});
-      // Blockly.Variables.createVariableButtonHandler(button.getTargetWorkspace(), null, type)
-    });
+  registerDynamicClearingTextFields() {
+    const funcs = () => this.clickOnTextFieldListener();
+    Blockly.Extensions.register('clearing_text_field',
+     function (func = funcs) {
+        // func();
+      }) 
   }
 
   clickOnTextFieldListener(event) {
+    console.log(event)
     // if (event.type === Blockly.Events.UI) {
     //   console.log(event.element)
     // }
   }
 
   componentDidMount() {
-    this.registerButtonCallbackFuncForAddVariableButtons("createStringVariable", "string");
-    this.registerButtonCallbackFuncForAddVariableButtons("createIntVariable", "int");
     this.registerGeneratorOptionsForEventOccurBlock();
+    this.registerDynamicClearingTextFields();
     this.loadWorkspace();
     Blockly.mainWorkspace.addChangeListener(this.clickOnTextFieldListener);
   }
 
   componentWillUnmount() {
     Blockly.Extensions.unregister('dynamic_menu_extension');
+    Blockly.Extensions.unregister('clearing_text_field');
     Blockly.mainWorkspace.removeChangeListener(this.clickOnTextFieldListener);
   }
 

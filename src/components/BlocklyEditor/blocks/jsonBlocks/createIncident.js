@@ -46,6 +46,7 @@ const createIncident = {
       "spellcheck": false
     }
   ],
+  "extensions": ["clearing_text_field"],
   "colour": 50,
   "previousStatement": null,
   "nextStatement": null,

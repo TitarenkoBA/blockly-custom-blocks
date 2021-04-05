@@ -41,6 +41,7 @@ const sendMailField = {
       "spellcheck": true
     }
   ],
+  "extensions": ["clearing_text_field"],
   "colour": 100,
   "previousStatement": null,
   "nextStatement": null,

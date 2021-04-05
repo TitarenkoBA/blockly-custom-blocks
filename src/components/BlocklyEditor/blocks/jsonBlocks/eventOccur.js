@@ -8,7 +8,7 @@ const eventOccur = {
       "name": "INPUT",
     }
   ],
-  "extensions": ["dynamic_menu_extension"],
+  "extensions": ["dynamic_menu_extension", "clearing_text_field"],
   "colour": 10,
   "previousStatement": null,
   "nextStatement": null,

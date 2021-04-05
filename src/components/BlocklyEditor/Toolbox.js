@@ -15,8 +15,6 @@ class Toolbox extends React.Component {
         </Category>
         <Category name="Variables" toolboxitemid="categoryVars">
           <Block type="variables_adding_form" />
-          {/* <Button text="Create string variable" callbackKey="createStringVariable" />
-          <Button text="Create integer variable" callbackKey="createIntVariable" /> */}
           <VariablesInToolbox variables={this.props.variables} />
         </Category>
       </React.Fragment>
