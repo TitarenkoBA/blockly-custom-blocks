@@ -28,32 +28,47 @@ class BlocklyEditor extends React.Component {
     );
   }
 
-  registerDynamicClearingTextFields() {
-    const funcs = () => this.clickOnTextFieldListener();
+  registerDynamicClearingTextField() {
     Blockly.Extensions.register('clearing_text_field',
-     function (func = funcs) {
-        // func();
-      }) 
-  }
+      function () {
+        const arrayOfTextFields = [];
 
-  clickOnTextFieldListener(event) {
-    console.log(event)
-    // if (event.type === Blockly.Events.UI) {
-    //   console.log(event.element)
-    // }
+        this.inputList.forEach((elem) => {
+          if (elem.fieldRow[1]) {
+            arrayOfTextFields.push(elem.fieldRow[1].name);
+          }
+        })
+        
+        const mouseDownNewFunc = (elem) => {
+          const mouseDownDefaultFunc = this.getField(elem).onMouseDown_;
+
+          let clearValueFunc = function () {
+            this.setValue('');
+            clearValueFunc = null;
+          }
+
+          this.getField(elem).onMouseDown_ = function (a) {
+            if (clearValueFunc) {
+              clearValueFunc.bind(this)();
+            }
+            return mouseDownDefaultFunc.apply(this, [a]);
+          }
+        }
+        
+        arrayOfTextFields.forEach(elem => mouseDownNewFunc(elem))
+        
+      }) 
   }
 
   componentDidMount() {
     this.registerGeneratorOptionsForEventOccurBlock();
-    this.registerDynamicClearingTextFields();
+    this.registerDynamicClearingTextField();
     this.loadWorkspace();
-    Blockly.mainWorkspace.addChangeListener(this.clickOnTextFieldListener);
   }
 
   componentWillUnmount() {
     Blockly.Extensions.unregister('dynamic_menu_extension');
     Blockly.Extensions.unregister('clearing_text_field');
-    Blockly.mainWorkspace.removeChangeListener(this.clickOnTextFieldListener);
   }
 
   generateCode = () => {

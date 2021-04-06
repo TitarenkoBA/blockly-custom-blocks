@@ -1,5 +1,3 @@
-// import Blockly from 'blockly/core';
-
 export function getValue(block, field) {
   return block.getFieldValue(field).trim() || null;
 };
@@ -7,7 +5,7 @@ export function getValue(block, field) {
 export function validateEmail(email) {
   // eslint-disable-next-line
   const reg = /^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i;
-  return reg.test(email) ? email : null;
+  return reg.test(email) ? email : '';
 };
 
 export function validateObj(obj) {
@@ -30,8 +28,4 @@ export function validator(newValue) {
     this.setWarningText(null);
   }
   return validateEmail(newValue);
-}
-
-export function clearTextField() {
-  
 }
