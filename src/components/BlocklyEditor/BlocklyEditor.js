@@ -2,7 +2,7 @@ import React from 'react';
 import BlocklyJS from 'blockly/javascript';
 import Blockly from 'blockly/core';
 import BlocklyComponent from './Blockly';
-import Toolbox from './Toolbox';
+import Toolbox from './components/Toolbox';
 import './blocks/customblocks';
 import './generator/generator';
 import './BlocklyEditor.css';
@@ -38,7 +38,7 @@ class BlocklyEditor extends React.Component {
             arrayOfTextFields.push(elem.fieldRow[1].name);
           }
         })
-        
+
         const mouseDownNewFunc = (elem) => {
           const mouseDownDefaultFunc = this.getField(elem).onMouseDown_;
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Block, Field } from './Blockly';
+import { Block, Field } from '../Blockly';
 
 const VariablesInToolbox = (props) => {
   return (

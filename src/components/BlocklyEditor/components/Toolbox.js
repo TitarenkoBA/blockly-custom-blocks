@@ -3,7 +3,7 @@ import React from 'react';
 import BlocksInToolbox from './BlocksInToolbox';
 import VariablesInToolbox from './VariablesInToolbox';
 
-import { Category, Block } from './Blockly';
+import { Category, Block } from '../Blockly';
 
 class Toolbox extends React.Component {
   

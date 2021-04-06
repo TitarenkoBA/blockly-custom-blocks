@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Block } from './Blockly';
+import { Block } from '../Blockly';
 
 const BlocksInToolbox = (props) => {
   return (
