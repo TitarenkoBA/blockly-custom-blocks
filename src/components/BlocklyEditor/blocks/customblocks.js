@@ -3,11 +3,9 @@ import sendMailField from './jsonBlocks/sendMailField';
 import runTheScript from './jsonBlocks/runTheScript';
 import createIncident from './jsonBlocks/createIncident';
 import eventOccur from './jsonBlocks/eventOccur'; 
-import variablesAddingForm from './jsonBlocks/variablesAddingForm'; 
 import variablesGet from './jsonBlocks/variablesGet';
 import variablesSet from './jsonBlocks/variablesSet';
 import { validator } from '../utils/utils'
-import { createVar } from './functions'
 
 Blockly.Blocks['send_mail_field'] = {
   init: function () {
@@ -42,17 +40,6 @@ Blockly.Blocks['event_occur'] = {
   init: function () {
     this.jsonInit(eventOccur);
   }
-};
-
-Blockly.Blocks['variables_adding_form'] = {
-  init: function () {
-    this.jsonInit(variablesAddingForm);
-    this.getField('INPUT_BUTTON').EDITABLE = false;
-    this.getField('INPUT_BUTTON').onMouseDown_ = (e) => {
-      e.preventDefault();
-      createVar(this);
-    }
-  },  
 };
 
 Blockly.Blocks['variables_get_custom'] = {

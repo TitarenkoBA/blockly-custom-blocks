@@ -3,7 +3,7 @@ import React from 'react';
 import BlocksInToolbox from './BlocksInToolbox';
 import VariablesInToolbox from './VariablesInToolbox';
 
-import { Category, Block } from '../Blockly';
+import { Category, Button } from '../Blockly';
 
 class Toolbox extends React.Component {
   
@@ -14,7 +14,7 @@ class Toolbox extends React.Component {
           <BlocksInToolbox blocks={this.props.blocks} />
         </Category>
         <Category name="Variables" toolboxitemid="categoryVars">
-          <Block type="variables_adding_form" />
+          <Button callbackKey="createVariable" text="Create new variable" />
           <VariablesInToolbox variables={this.props.variables} />
         </Category>
       </React.Fragment>

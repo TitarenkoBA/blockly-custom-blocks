@@ -9,7 +9,7 @@ const variablesSet = {
     },
     {
       "type": "input_value",
-      "name": "NAME"
+      "name": "VALUE"
     }
   ],
   "colour": 50,

@@ -3,6 +3,7 @@ import BlocklyJS from 'blockly/javascript';
 import Blockly from 'blockly/core';
 import BlocklyComponent from './Blockly';
 import Toolbox from './components/Toolbox';
+import PopUpWindow from './components/PopUpWindow';
 import './blocks/customblocks';
 import './generator/generator';
 import './BlocklyEditor.css';
@@ -11,6 +12,12 @@ class BlocklyEditor extends React.Component {
   constructor(props) {
     super(props);
     this.simpleWorkspace = React.createRef();
+  }
+
+  state = {
+    isVisible: "notVisible",
+    blocks: this.props.blocks,
+    variables: this.props.variables
   }
 
   registerGeneratorOptionsForEventOccurBlock() {
@@ -43,6 +50,8 @@ class BlocklyEditor extends React.Component {
           const mouseDownDefaultFunc = this.getField(elem).onMouseDown_;
 
           let clearValueFunc = function () {
+            // this.DEFAULT_VALUE = this.getValue();
+            console.log(this.getText())
             this.setValue('');
             clearValueFunc = null;
           }
@@ -60,7 +69,79 @@ class BlocklyEditor extends React.Component {
       }) 
   }
 
+  createVariable = (e) => {
+    e.preventDefault();
+    const variable = {
+      name: document.querySelector('#name').value,
+      type: document.querySelector('#type').value,
+      description: document.querySelector('#description').value,
+      defaultValue: "str"
+    }
+    const toolbox = Blockly.mainWorkspace.getToolbox();
+    const newContnentsArray = [...toolbox.getToolboxItemById('categoryVars').getContents()]
+      .map((item) => item.blockxml);
+
+    const checkingName = newContnentsArray.slice(1).find((item) => item.innerText.trim() === variable.name);
+
+    if (!checkingName) {
+      if (variable.type !== "none") {
+        const warning = document.querySelector('#warningText');
+        warning.innerText = ""
+
+        const newVariable = {
+          newGetVariable: `<block 
+        xmlns="http://www.w3.org/1999/xhtml" 
+        type="variables_get_custom"
+        is="blockly">
+          <field 
+            name="VAR"
+            variabletype="${variable.type}"
+            is="blockly"
+            
+          >${variable.name}</field>
+        </block>`,
+          newSetVariable: `<block 
+        xmlns="http://www.w3.org/1999/xhtml" 
+        type="variables_set_custom" 
+        is="blockly">
+          <field 
+            name="VAR"
+            variabletype="${variable.type}"
+            is="blockly"
+          >${variable.name}</field>
+        </block>`
+        }
+
+        const domNewVariable = {
+          domNewGetVariable: Blockly.Xml.textToDom(newVariable.newGetVariable),
+          domNewSetVariable: Blockly.Xml.textToDom(newVariable.newSetVariable),
+        }
+
+        let button = `<button callbackKey="createVariable" text="Create new variable" />`
+        button = Blockly.Xml.textToDom(button);
+
+        newContnentsArray.splice(0, 1);
+        newContnentsArray.push(domNewVariable.domNewGetVariable, domNewVariable.domNewSetVariable)
+        newContnentsArray.unshift(button);
+        toolbox.getToolboxItemById('categoryVars').updateFlyoutContents(newContnentsArray)
+        toolbox.refreshSelection()
+
+        this.setState({ isVisible: "notVisible" });
+      } else {
+        const warning = document.querySelector('#warningText');
+        warning.innerText = "Warning: variable type not choosen!"
+      }
+    } else {
+      const warning = document.querySelector('#warningText');
+      warning.innerText = "Warning: variable name already exists!"
+    }
+  }
+
   componentDidMount() {
+    Blockly.mainWorkspace.registerButtonCallback("createVariable", () => {
+      this.setState({isVisible: "visible"});
+    });
+
     this.registerGeneratorOptionsForEventOccurBlock();
     this.registerDynamicClearingTextField();
     this.loadWorkspace();
@@ -96,19 +177,25 @@ class BlocklyEditor extends React.Component {
       <div className="BlocklyEditor">
         <header className="BlocklyEditor-header">
           <div className="BlocklyEditor-buttons">
+            <PopUpWindow 
+              clickButton={this.createVariable} 
+              isVisible={this.state.isVisible} 
+              clickArea={(e) => { e.preventDefault(); this.setState({ isVisible: "notVisible" }) }} />
             <button onClick={this.generateCode}>Convert</button>
             <button onClick={this.saveWorkspace}>Save</button>
           </div>
           <BlocklyComponent 
             ref={this.simpleWorkspace}
-            readOnly={false} trashcan={true} media={'media/'}
+            readOnly={false} 
+            trashcan={true} 
+            media={'media/'}
             move={{
               scrollbars: true,
               drag: true,
               wheel: true
             }}
             initialXml={'<xml xmlns="http://www.w3.org/1999/xhtml"></xml>'}>
-            <Toolbox blocks={this.props.blocks} variables={this.props.variables} />
+            <Toolbox blocks={this.state.blocks} variables={this.state.variables} />
           </BlocklyComponent>
         </header>
       </div>

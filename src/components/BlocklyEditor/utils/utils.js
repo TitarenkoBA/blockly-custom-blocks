@@ -5,7 +5,7 @@ export function getValue(block, field) {
 export function validateEmail(email) {
   // eslint-disable-next-line
   const reg = /^[\w]{1}[\w-\.]*@[\w-]+\.[a-z]{2,4}$/i;
-  return reg.test(email) ? email : '';
+  return reg.test(email) ? email : null;
 };
 
 export function validateObj(obj) {
