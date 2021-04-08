@@ -3,8 +3,10 @@ import sendMailField from './jsonBlocks/sendMailField';
 import runTheScript from './jsonBlocks/runTheScript';
 import createIncident from './jsonBlocks/createIncident';
 import eventOccur from './jsonBlocks/eventOccur'; 
-import variablesGet from './jsonBlocks/variablesGet';
-import variablesSet from './jsonBlocks/variablesSet';
+import variablesGetString from './jsonBlocks/variablesGetString';
+import variablesSetString from './jsonBlocks/variablesSetString';
+import variablesGetInteger from './jsonBlocks/variablesGetInteger';
+import variablesSetInteger from './jsonBlocks/variablesSetInteger';
 import { validator } from '../utils/utils'
 
 Blockly.Blocks['send_mail_field'] = {
@@ -42,18 +44,38 @@ Blockly.Blocks['event_occur'] = {
   }
 };
 
-Blockly.Blocks['variables_get_custom'] = {
+Blockly.Blocks['variables_get_string'] = {
   init: function () {
-    this.jsonInit(variablesGet);
+    this.jsonInit(variablesGetString);
     this.getField('VAR').onMouseDown_ = (e) => e.preventDefault();
     this.getField('VAR').EDITABLE = false;
+    this.setColour("#4ab55c");
   }
 };
 
-Blockly.Blocks['variables_set_custom'] = {
+Blockly.Blocks['variables_set_string'] = {
   init: function () {
-    this.jsonInit(variablesSet);
+    this.jsonInit(variablesSetString);
     this.getField('VAR').onMouseDown_ = (e) => e.preventDefault();
     this.getField('VAR').EDITABLE = false;
+    this.setColour("#4ab55c");
+  }
+};
+
+Blockly.Blocks['variables_get_integer'] = {
+  init: function () {
+    this.jsonInit(variablesGetInteger);
+    this.getField('VAR').onMouseDown_ = (e) => e.preventDefault();
+    this.getField('VAR').EDITABLE = false;
+    this.setColour("#4c80ba");
+  }
+};
+
+Blockly.Blocks['variables_set_integer'] = {
+  init: function () {
+    this.jsonInit(variablesSetInteger);
+    this.getField('VAR').onMouseDown_ = (e) => e.preventDefault();
+    this.getField('VAR').EDITABLE = false;
+    this.setColour("#4c80ba");
   }
 };

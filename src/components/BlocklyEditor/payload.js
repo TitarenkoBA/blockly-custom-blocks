@@ -7,7 +7,6 @@ export const blocks = [
   "controls_ifelse",
   "logic_compare",
   "logic_operation",
-  "logic_operation",
   "logic_negate",
   "logic_boolean",
   "logic_null",
@@ -31,14 +30,14 @@ export const variables = [
   {
     "name": "var3",
     "description": "sample",
-    "type": "int"
+    "type": "integer"
   },
 ];
 
 export const eventTypes = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
+  "first",
+  "second",
+  "third",
+  "fourth",
+  "fifth",
 ];

@@ -71,13 +71,27 @@ Blockly.JavaScript['event_occur'] = function (block) {
     }
 };
 
-Blockly.JavaScript['variables_get_custom'] = function (block) {
+Blockly.JavaScript['variables_get_string'] = function (block) {
     const code = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('VAR'),
         Blockly.VARIABLE_CATEGORY_NAME);
     return code;
 };
 
-Blockly.JavaScript['variables_set_custom'] = function (block) {
+Blockly.JavaScript['variables_get_integer'] = function (block) {
+    const code = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('VAR'),
+        Blockly.VARIABLE_CATEGORY_NAME);
+    return code;
+};
+
+Blockly.JavaScript['variables_set_string'] = function (block) {
+    const argument0 = Blockly.JavaScript.valueToCode(block, 'VALUE',
+        Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+    const varName = Blockly.JavaScript.variableDB_.getName(
+        block.getFieldValue('VAR'), Blockly.VARIABLE_CATEGORY_NAME);
+    return varName + ' = ' + argument0 + ';\n';
+};
+
+Blockly.JavaScript['variables_set_integer'] = function (block) {
     const argument0 = Blockly.JavaScript.valueToCode(block, 'VALUE',
         Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
     const varName = Blockly.JavaScript.variableDB_.getName(

@@ -1,4 +1,4 @@
-.BlocklyEditor-header {
+.BlocklyEditor--header {
   background-color: #066279;
   min-height: 50vh;
   display: flex;
@@ -9,7 +9,7 @@
   color: white;
 }
 
-.BlocklyEditor-buttons {
+.BlocklyEditor--buttons {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -17,7 +17,7 @@
   font-size: calc(10px + 2vmin);
 }
 
-.BlocklyEditor-buttons button {
+.BlocklyEditor--buttons button {
   cursor: pointer;
   height: 40px;
   width: 100px;
@@ -28,7 +28,7 @@
   transition: all 300ms;
 }
 
-.BlocklyEditor-buttons button:hover {
+.BlocklyEditor--buttons button:hover {
   cursor: pointer;
   height: 40px;
   width: 100px;
@@ -38,25 +38,26 @@
   margin: 20px;
 }
 
-.popup-form {
+.popup--form {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   z-index: 1000;
-  width: 50%;
-  height: 40%;
+  max-width: 30%;
+  min-height: 40%;
   border-radius: 10px;
   padding: 40px;
   background-color: #6577c4;
   color: white;
   margin: 10% auto auto;
+  font-size: 0.8em;
 }
 
-.popup-form h3 {
+.popup--form h3 {
   margin: 0;
 }
 
-.popup-container {
+.popup--container {
   position: absolute;
   background: rgba(0, 0, 0, 0.4);
   z-index: 900;
@@ -65,15 +66,16 @@
   top: 0;
   left: 0;
 }
-.popup-warningContainer {
+.popup--warningContainer {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-.popup-warningText {
+.popup--warningText {
   font-size: 0.8em;
   color:crimson;
+  font-weight: 800;
 }
 
 .visible {
