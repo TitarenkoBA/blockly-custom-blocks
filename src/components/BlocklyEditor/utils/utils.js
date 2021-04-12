@@ -1,3 +1,5 @@
+import Blockly from 'blockly/core';
+
 export function getValue(block, field) {
   return block.getFieldValue(field).trim() || null;
 };
@@ -28,4 +30,77 @@ export function validator(newValue) {
     this.setWarningText(null);
   }
   return validateEmail(newValue);
+}
+
+export function createGetterSetter(item, variable) {
+  const xmlField = Blockly.utils.xml.createElement('field');
+  xmlField.setAttribute('name', 'VAR');
+  xmlField.setAttribute('variabletype', variable.type === "string" ? "String" : "Number");
+  xmlField.appendChild(Blockly.utils.xml.createTextNode(variable.name));
+  const xmlBlock = Blockly.utils.xml.createElement('block');
+  xmlBlock.setAttribute('type', `variables_${item}_${variable.type}`);
+  xmlBlock.appendChild(xmlField);
+  return xmlBlock;
+}
+
+export function createVariablesFunc(varsArr, newVar, context) {
+  let variable = newVar;
+  let variablesInState = [...varsArr];
+  
+  const toolbox = Blockly.mainWorkspace.getToolbox();
+
+  let newContnentsArray = [...toolbox.getToolboxItemById('categoryVars').getContents()]
+    .map((item) => item.blockxml);
+  newContnentsArray = newContnentsArray.slice(1);
+
+  let button = `<button callbackKey="createVariable" text="Create new variable" />`
+  button = Blockly.Xml.textToDom(button);
+
+  if (variable.name.trim()) {
+    const checkingName = newContnentsArray.find((item) => {
+      if (item.innerText) {
+        return item.innerText.trim() === variable.name
+      }
+      return false
+    });
+
+    if (!checkingName) {
+      if (variable.type !== "none") {
+        context.setState({ warningText: "" })
+
+        const newVariable = {
+          newGetVariable: createGetterSetter('get', variable),
+          newSetVariable: createGetterSetter('set', variable)
+        }
+
+        newContnentsArray.push(newVariable.newGetVariable, newVariable.newSetVariable);
+        variablesInState.push(variable);
+
+      } else {
+        context.setState({ warningText: "Warning: variable type not choosen!" })
+      }
+    } else {
+      context.setState({ warningText: "Warning: variable name already exists!" })
+    }
+  } else {
+    context.setState({ warningText: "Warning: enter variable name!" })
+  }
+
+  context.setState({
+    isVisible: false,
+    newVariable: {
+      name: '',
+      type: 'none',
+      description: '',
+      defaultValue: ''
+    },
+    variables: [...variablesInState]
+  });
+  
+  Blockly.Extensions.unregister("dynamic_tooltips_and_defaultValues");
+  context.registerDynamicTooltipsAndDefaultValues(variablesInState);
+
+  newContnentsArray.unshift(button);
+  toolbox.getToolboxItemById('categoryVars').updateFlyoutContents(newContnentsArray)
+  toolbox.refreshSelection()
 }

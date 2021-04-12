@@ -10,7 +10,7 @@ class Toolbox extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Category name="Blocks">
+        <Category name="Blocks" toolboxitemid="categoryBlocks">
           <BlocksInToolbox blocks={this.props.blocks} />
         </Category>
         <Category name="Variables" toolboxitemid="categoryVars">

@@ -50,7 +50,7 @@ Blockly.Blocks['variables_get_string'] = {
     this.getField('VAR').onMouseDown_ = (e) => e.preventDefault();
     this.getField('VAR').EDITABLE = false;
     this.setColour("#4ab55c");
-  }
+  },
 };
 
 Blockly.Blocks['variables_set_string'] = {

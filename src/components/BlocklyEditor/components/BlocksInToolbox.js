@@ -6,7 +6,7 @@ const BlocksInToolbox = (props) => {
   return (
     props.blocks.map((blockType, index) => {
       return (
-        <Block
+        <Block className="block"
           key={index}
           type={blockType}
         />

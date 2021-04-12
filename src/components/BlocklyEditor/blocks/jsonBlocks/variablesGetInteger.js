@@ -10,7 +10,7 @@ const variablesGetInteger = {
       "defaultType": "Number",
     }
   ],
-  "extensions": ["dynamic_tooltips", "dynamic_defaultValues"],
+  "extensions": ["dynamic_tooltips_and_defaultValues"],
   "output": "Number",
 };
 

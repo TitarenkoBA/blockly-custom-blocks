@@ -85,3 +85,7 @@
 .notVisible {
   display: none;
 }
+
+.blocklyEditableText > .blocklyText {
+  fill: #888 !important;
+}

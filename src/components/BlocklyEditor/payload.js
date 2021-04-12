@@ -19,18 +19,21 @@ export const blocks = [
 export const variables = [
   {
     "name": "var1",
-    "description": "sample",
-    "type": "string"
+    "type": "string",
+    "description": "sample1",
+    "defaultValue": "str1"
   },
   {
     "name": "var2",
-    "description": "sample",
-    "type": "string"
+    "type": "string",
+    "description": "sample2",
+    "defaultValue": "str2"
   },
   {
     "name": "var3",
-    "description": "sample",
-    "type": "integer"
+    "type": "integer",
+    "description": "sample3",
+    "defaultValue": "0"
   },
 ];
 

@@ -4,6 +4,7 @@ import Blockly from 'blockly/core';
 import BlocklyComponent from './Blockly';
 import Toolbox from './components/Toolbox';
 import PopUpWindow from './components/PopUpWindow';
+import { createVariablesFunc } from './utils/utils';
 import './blocks/customblocks';
 import './generator/generator';
 import './BlocklyEditor.css';
@@ -15,7 +16,7 @@ class BlocklyEditor extends React.Component {
     this.state = {
       isVisible: false,
       blocks: this.props.blocks,
-      variables: JSON.parse(window.localStorage.getItem("savedVariables")) || this.props.variables,
+      variables: this.props.variables,
       newVariable: {
         name: '',
         type: 'none',
@@ -41,27 +42,24 @@ class BlocklyEditor extends React.Component {
     );
   }
 
-  registerDynamicTooltips() {
-    const vars = this.state.variables;
-    Blockly.Extensions.register('dynamic_tooltips',
+  registerDynamicTooltipsAndDefaultValues(vars) {
+    Blockly.Extensions.register('dynamic_tooltips_and_defaultValues',
       function (variables = vars) {
-        // const var0 = variables.find((variable) => {
-        //   return variable.name = this.getField('VAR')
-        // });
-        // this.setTooltip(var0.discription);
-      }
-    );
-  }
-
-  registerDynamicDefaultValues() {
-    const vars = this.state.variables;
-    Blockly.Extensions.register('dynamic_defaultValues',
-      function (variables = vars) {
-
-        // const var0 = variables.find((variable) => {
-        //   return variable.name = this.getField('VAR')
-        // });
-        // this.getField('VAR').DEFAULT_VALUE = var0.defaultValue;
+        const mouseDownDefaultFunc = this.onMouseDown_;
+        let findVariableFunc = function () {
+          const name = this.getField('VAR').getVariable().name;
+          const var0 = variables.find(variable => variable.name === name);
+          this.getField('VAR').DEFAULT_VALUE = var0.defaultValue;
+          this.getField('VAR').setTooltip(var0.description);
+          this.setTooltip(var0.description);
+          findVariableFunc = null;
+        }
+        this.onMouseDown_ = function (a) {
+          if (findVariableFunc) {
+            findVariableFunc.bind(this)();
+          }
+          return mouseDownDefaultFunc.apply(this, [a]);
+        }
       }
     );
   }
@@ -99,74 +97,67 @@ class BlocklyEditor extends React.Component {
   createVariable = (e) => {
     e.preventDefault();
     const variable = {...this.state.newVariable};
+    createVariablesFunc(this.state.variables, variable, this);
+    // if (variable.name.trim()) {
+    //   const toolbox = Blockly.mainWorkspace.getToolbox();
+    //   const newContnentsArray = [...toolbox.getToolboxItemById('categoryVars').getContents()]
+    //     .map((item) => item.blockxml);
 
-    const toolbox = Blockly.mainWorkspace.getToolbox();
-    const newContnentsArray = [...toolbox.getToolboxItemById('categoryVars').getContents()]
-      .map((item) => item.blockxml);
+    //   const checkingName = newContnentsArray.slice(1).find((item) => item.innerText.trim() === variable.name);
+    //   if (!checkingName) {
+    //     if (variable.type !== "none") {
+    //       this.setState({ warningText: "" })
 
-    const checkingName = newContnentsArray.slice(1).find((item) => item.innerText.trim() === variable.name);
+    //       // function createGetterSetter(item) {
+    //       //   const xmlField = Blockly.utils.xml.createElement('field');
+    //       //   xmlField.setAttribute('name', 'VAR');
+    //       //   xmlField.setAttribute('DEFAULT_VALUE', variable.defaultValue);
+    //       //   xmlField.setAttribute('variabletype', variable.type === "string" ? "String" : "Number");
+    //       //   xmlField.appendChild(Blockly.utils.xml.createTextNode(variable.name));
+    //       //   const xmlBlock = Blockly.utils.xml.createElement('block');
+    //       //   xmlBlock.setAttribute('type', `variables_${item}_${variable.type}`);
+    //       //   xmlBlock.setAttribute('tooltip', variable.description);
+    //       //   xmlBlock.appendChild(xmlField);
+    //       //   return xmlBlock;
+    //       // }
 
-    if (!checkingName) {
-      if (variable.type !== "none") {
-        this.setState({ warningText: "" })
+    //       const newVariable = {
+    //         newGetVariable: createGetterSetter('get', variable),
+    //         newSetVariable: createGetterSetter('set', variable)
+    //       }
 
-        function createGetterSetter(item) {
-          const xmlField = Blockly.utils.xml.createElement('field');
-          xmlField.setAttribute('name', 'VAR');
-          xmlField.setAttribute('variabletype', variable.type === "string" ? "String" : "Number");
-          xmlField.appendChild(Blockly.utils.xml.createTextNode(variable.name));
-          const xmlBlock = Blockly.utils.xml.createElement('block');
-          xmlBlock.setAttribute('type', `variables_${item}_${variable.type}`);
-          xmlBlock.appendChild(xmlField);
-          return xmlBlock;
-        }
+    //       let button = `<button callbackKey="createVariable" text="Create new variable" />`
+    //       button = Blockly.Xml.textToDom(button);
 
-        // function createGetterSetterBlockly(item) {
-        //   const Field = new Blockly.FieldVariable(
-        //     variable.name,
-        //     null, 
-        //     [variable.type === "string" ? "String" : "Number"],
-        //     variable.type === "string" ? "String" : "Number")
-        //   Field.DEFAULT_VALUE = variable.defaultValue;
-        //   Field.setTooltip(variable.description);
-        //   const Block = new Blockly.Block(toolbox.getWorkspace(), `variables_${item}_${variable.type}`);
-        //   Block.appendField(Field);
-        //   return Block;
-        // }
+    //       newContnentsArray.splice(0, 1);
+    //       newContnentsArray.push(newVariable.newGetVariable, newVariable.newSetVariable)
+    //       newContnentsArray.unshift(button);
+    //       toolbox.getToolboxItemById('categoryVars').updateFlyoutContents(newContnentsArray)
+    //       toolbox.refreshSelection()
 
-        const newVariable = {
-          newGetVariable: createGetterSetter('get'),
-          newSetVariable: createGetterSetter('set')
-        }
+    //       const newVariablesArray = [...this.state.variables];
+    //       newVariablesArray.push(variable)
 
-        let button = `<button callbackKey="createVariable" text="Create new variable" />`
-        button = Blockly.Xml.textToDom(button);
-
-        newContnentsArray.splice(0, 1);
-        newContnentsArray.push(newVariable.newGetVariable, newVariable.newSetVariable)
-        newContnentsArray.unshift(button);
-        toolbox.getToolboxItemById('categoryVars').updateFlyoutContents(newContnentsArray)
-        toolbox.refreshSelection()
-
-        const newVariablesArray = [...this.state.variables];
-        newVariablesArray.push(variable)
-
-        this.setState({ 
-          isVisible: false, 
-          newVariable: {
-            name: '',
-            type: 'none',
-            description: '',
-            defaultValue: ''
-          },
-          variables: [...newVariablesArray]
-        });
-      } else {
-        this.setState({warningText: "Warning: variable type not choosen!"})
-      }
-    } else {
-      this.setState({ warningText: "Warning: variable name already exists!" })
-    }
+    //       this.setState({
+    //         isVisible: false,
+    //         newVariable: {
+    //           name: '',
+    //           type: 'none',
+    //           description: '',
+    //           defaultValue: ''
+    //         },
+    //         variables: [...newVariablesArray]
+    //       });
+    //     } else {
+    //       this.setState({ warningText: "Warning: variable type not choosen!" })
+    //     }
+    //   } else {
+    //     this.setState({ warningText: "Warning: variable name already exists!" })
+    //   }
+    // } else {
+    //   this.setState({ warningText: "Warning: enter variable name!" })
+    // }
+    
   }
 
   cancelVariableCreation = (e) => {
@@ -198,16 +189,14 @@ class BlocklyEditor extends React.Component {
     });
     this.registerGeneratorOptionsForEventOccurBlock();
     this.registerDynamicClearingTextField();
-    this.registerDynamicTooltips();
-    this.registerDynamicDefaultValues();
+    this.registerDynamicTooltipsAndDefaultValues(this.state.variables);
     this.loadWorkspace();
   }
 
   componentWillUnmount() {
     Blockly.Extensions.unregister('dynamic_menu_extension');
     Blockly.Extensions.unregister('clearing_text_field');
-    Blockly.Extensions.unregister("dynamic_tooltips");
-    Blockly.Extensions.unregister("dynamic_defaultValues");
+    Blockly.Extensions.unregister("dynamic_tooltips_and_defaultValues");
   }
 
   generateCode = () => {
@@ -227,6 +216,10 @@ class BlocklyEditor extends React.Component {
     const xml_text = window.localStorage.getItem("savedWorkspace") || '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>';
     const xml = Blockly.Xml.textToDom(xml_text);
     Blockly.Xml.domToWorkspace(xml, Blockly.mainWorkspace);
+    const vars = JSON.parse(window.localStorage.getItem("savedVariables")) || this.state.variables;
+    this.setState({
+      variables: [...vars]
+    })
   }
 
   clearLocalStorage = () => {

@@ -15,7 +15,7 @@ const variablesSetString = {
       "check": "String"
     }
   ],
-  "extensions": ["dynamic_tooltips"],
+  "extensions": ["dynamic_tooltips_and_defaultValues"],
   "colour": 50,
   "previousStatement": null,
   "nextStatement": null,

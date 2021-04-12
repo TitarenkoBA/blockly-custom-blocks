@@ -10,7 +10,7 @@ const variablesGetString = {
       "defaultType": "String",
     }
   ],
-  "extensions": ["dynamic_tooltips", "dynamic_defaultValues"],
+  "extensions": ["dynamic_tooltips_and_defaultValues"],
   "output": "String",
 };
 
