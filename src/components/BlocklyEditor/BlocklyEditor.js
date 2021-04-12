@@ -67,6 +67,9 @@ class BlocklyEditor extends React.Component {
   registerDynamicClearingTextField() {
     Blockly.Extensions.register('clearing_text_field',
       function () {
+        // this.onchange = (e) => {
+        //   console.log(e)
+        // }
         const arrayOfTextFields = [];
 
         this.inputList.forEach((elem) => {
@@ -78,8 +81,7 @@ class BlocklyEditor extends React.Component {
         const mouseDownNewFunc = (elem) => {
           const mouseDownDefaultFunc = this.getField(elem).onMouseDown_;
           let clearValueFunc = function () {
-            // this.DEFAULT_VALUE = this.getValue();
-            // console.log(this.getText())
+            this.DEFAULT_VALUE = this.getText();
             this.setValue('');
             clearValueFunc = null;
           }

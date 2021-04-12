@@ -24,12 +24,32 @@ export function validateObj(obj) {
 };
 
 export function validator(newValue) {
+  const input = this.sourceBlock_.getInput(`INPUT_${this.name}`) || null;
+  
   if (!validateEmail(newValue)) {
-    this.setWarningText('Wrong email!')
+    if (input) {
+      this.sourceBlock_.removeInput(`INPUT_${this.name}`)
+    }
+
+    this.sourceBlock_
+      .appendDummyInput(`INPUT_${this.name}`)
+      .appendField(new Blockly.FieldLabel(`------Wrong email ${this.name}!------`))
+
+    const arr = this.sourceBlock_.inputList.map((elem) => elem.fieldRow[1] || elem);
+    arr.splice(0, 1);
+
+    const newArr = arr.map(elem => elem.name);
+    const index = newArr.indexOf(this.name) + 2;
+    const indexInput = newArr.indexOf(`INPUT_${this.name}`) + 1;
+
+    this.sourceBlock_.moveNumberedInputBefore(indexInput, index )
+
   } else {
-    this.setWarningText(null);
+    if (input) {
+      this.sourceBlock_.removeInput(`INPUT_${this.name}`)
+    }
   }
-  return validateEmail(newValue);
+  return newValue;
 }
 
 export function createGetterSetter(item, variable) {

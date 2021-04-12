@@ -15,10 +15,8 @@ Blockly.Blocks['send_mail_field'] = {
     const body = this.getField("BODY");
     body.maxDisplayLength = "30";
     body.maxLines_ = "5";
-    const from = this.getField("FROM");
-    from.setValidator(validator.bind(this));
-    const to = this.getField("TO");
-    to.setValidator(validator.bind(this));
+    this.getField("FROM").setValidator(validator.bind(this.getField("FROM")));
+    this.getField("TO").setValidator(validator.bind(this.getField("TO")));
   }
 };
 
@@ -34,7 +32,7 @@ Blockly.Blocks['create_incident_field'] = {
     const body = this.getField("BODY");
     body.maxDisplayLength = "30";
     body.maxLines_ = "5";
-    this.getField("RESP").setValidator(validator.bind(this));
+    this.getField("RESP").setValidator(validator.bind(this.getField("RESP")));
   }
 };
 
