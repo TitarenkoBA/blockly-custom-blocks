@@ -26,7 +26,7 @@ const PopUpWindow = (props) => {
         </select>
         <label htmlFor="defaultValue">Enter variable default value</label>
         <input
-          type="text"
+          type={props.values.type === "integer" ? "number" : "text"}
           name="defaultValue"
           id="defaultValue"
           value={props.values.defaultValue}

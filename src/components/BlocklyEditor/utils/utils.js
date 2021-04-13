@@ -42,7 +42,9 @@ export function validator(newValue) {
     const index = newArr.indexOf(this.name) + 2;
     const indexInput = newArr.indexOf(`INPUT_${this.name}`) + 1;
 
-    this.sourceBlock_.moveNumberedInputBefore(indexInput, index )
+    if (indexInput !== index) {
+      this.sourceBlock_.moveNumberedInputBefore(indexInput, index)
+    }
 
   } else {
     if (input) {

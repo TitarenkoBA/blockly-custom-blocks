@@ -16,7 +16,7 @@ class BlocklyEditor extends React.Component {
     this.state = {
       isVisible: false,
       blocks: this.props.blocks,
-      variables: this.props.variables,
+      variables: JSON.parse(window.localStorage.getItem("savedVariables")) || this.props.variables,
       newVariable: {
         name: '',
         type: 'none',
@@ -67,27 +67,53 @@ class BlocklyEditor extends React.Component {
   registerDynamicClearingTextField() {
     Blockly.Extensions.register('clearing_text_field',
       function () {
-        // this.onchange = (e) => {
-        //   console.log(e)
-        // }
-        const arrayOfTextFields = [];
+        const arrayOfClearingFields = [];
 
+        const clearValueFunc = function (elem) {
+          this.sourceBlock_.NEW_SELECTED_FIELD = elem;
+          const entry = arrayOfClearingFields.includes(elem);
+          if (!entry) {
+            arrayOfClearingFields.push(elem)
+            this.setValue('');
+          }
+        }
+
+        const returnOldValueToField = function (selector) {
+          const elem = this.getField(selector);
+          if (elem.NEW_VALUE === '') {
+            elem.setValue(elem.OLD_VALUE)
+          }
+          const index = arrayOfClearingFields.indexOf(selector);
+          arrayOfClearingFields.splice(index, 1);
+        }
+
+        this.onchange = (event) => {
+          if (event.element === 'field') {
+            if (this.NEW_SELECTED_FIELD === event.name) {
+              this.getField(event.name).OLD_VALUE = event.oldValue
+              this.getField(event.name).NEW_VALUE = event.newValue
+              if (this.OLD_SELECTED_FIELD && this.OLD_SELECTED_FIELD !== this.NEW_SELECTED_FIELD) {
+                returnOldValueToField.bind(this)(this.OLD_SELECTED_FIELD);
+              }
+              this.OLD_SELECTED_FIELD = event.name
+            } 
+          }
+          if (event.element === 'click') {
+            returnOldValueToField.bind(this)(this.NEW_SELECTED_FIELD);
+          }
+        }
+
+        const arrayOfTextFields = [];
         this.inputList.forEach((elem) => {
           if (elem.fieldRow[1]) {
             arrayOfTextFields.push(elem.fieldRow[1].name);
           }
         })
-
         const mouseDownNewFunc = (elem) => {
           const mouseDownDefaultFunc = this.getField(elem).onMouseDown_;
-          let clearValueFunc = function () {
-            this.DEFAULT_VALUE = this.getText();
-            this.setValue('');
-            clearValueFunc = null;
-          }
           this.getField(elem).onMouseDown_ = function (a) {
             if (clearValueFunc) {
-              clearValueFunc.bind(this)();
+              clearValueFunc.bind(this)(elem);
             }
             return mouseDownDefaultFunc.apply(this, [a]);
           }
@@ -100,66 +126,6 @@ class BlocklyEditor extends React.Component {
     e.preventDefault();
     const variable = {...this.state.newVariable};
     createVariablesFunc(this.state.variables, variable, this);
-    // if (variable.name.trim()) {
-    //   const toolbox = Blockly.mainWorkspace.getToolbox();
-    //   const newContnentsArray = [...toolbox.getToolboxItemById('categoryVars').getContents()]
-    //     .map((item) => item.blockxml);
-
-    //   const checkingName = newContnentsArray.slice(1).find((item) => item.innerText.trim() === variable.name);
-    //   if (!checkingName) {
-    //     if (variable.type !== "none") {
-    //       this.setState({ warningText: "" })
-
-    //       // function createGetterSetter(item) {
-    //       //   const xmlField = Blockly.utils.xml.createElement('field');
-    //       //   xmlField.setAttribute('name', 'VAR');
-    //       //   xmlField.setAttribute('DEFAULT_VALUE', variable.defaultValue);
-    //       //   xmlField.setAttribute('variabletype', variable.type === "string" ? "String" : "Number");
-    //       //   xmlField.appendChild(Blockly.utils.xml.createTextNode(variable.name));
-    //       //   const xmlBlock = Blockly.utils.xml.createElement('block');
-    //       //   xmlBlock.setAttribute('type', `variables_${item}_${variable.type}`);
-    //       //   xmlBlock.setAttribute('tooltip', variable.description);
-    //       //   xmlBlock.appendChild(xmlField);
-    //       //   return xmlBlock;
-    //       // }
-
-    //       const newVariable = {
-    //         newGetVariable: createGetterSetter('get', variable),
-    //         newSetVariable: createGetterSetter('set', variable)
-    //       }
-
-    //       let button = `<button callbackKey="createVariable" text="Create new variable" />`
-    //       button = Blockly.Xml.textToDom(button);
-
-    //       newContnentsArray.splice(0, 1);
-    //       newContnentsArray.push(newVariable.newGetVariable, newVariable.newSetVariable)
-    //       newContnentsArray.unshift(button);
-    //       toolbox.getToolboxItemById('categoryVars').updateFlyoutContents(newContnentsArray)
-    //       toolbox.refreshSelection()
-
-    //       const newVariablesArray = [...this.state.variables];
-    //       newVariablesArray.push(variable)
-
-    //       this.setState({
-    //         isVisible: false,
-    //         newVariable: {
-    //           name: '',
-    //           type: 'none',
-    //           description: '',
-    //           defaultValue: ''
-    //         },
-    //         variables: [...newVariablesArray]
-    //       });
-    //     } else {
-    //       this.setState({ warningText: "Warning: variable type not choosen!" })
-    //     }
-    //   } else {
-    //     this.setState({ warningText: "Warning: variable name already exists!" })
-    //   }
-    // } else {
-    //   this.setState({ warningText: "Warning: enter variable name!" })
-    // }
-    
   }
 
   cancelVariableCreation = (e) => {
@@ -218,10 +184,6 @@ class BlocklyEditor extends React.Component {
     const xml_text = window.localStorage.getItem("savedWorkspace") || '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>';
     const xml = Blockly.Xml.textToDom(xml_text);
     Blockly.Xml.domToWorkspace(xml, Blockly.mainWorkspace);
-    const vars = JSON.parse(window.localStorage.getItem("savedVariables")) || this.state.variables;
-    this.setState({
-      variables: [...vars]
-    })
   }
 
   clearLocalStorage = () => {
