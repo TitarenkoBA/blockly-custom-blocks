@@ -43,13 +43,13 @@
   flex-direction: column;
   justify-content: space-around;
   z-index: 1000;
-  max-width: 30%;
-  min-height: 40%;
+  max-width: 30vw;
+  min-height: 40vh;
   border-radius: 10px;
   padding: 40px;
   background-color: #6577c4;
   color: white;
-  margin: 10% auto auto;
+  margin: 10vh auto auto;
   font-size: 0.8em;
 }
 

@@ -98,6 +98,17 @@ export function createVariablesFunc(varsArr, newVar, context) {
         newContnentsArray.push(newVariable.newGetVariable, newVariable.newSetVariable);
         variablesInState.push(variable);
 
+        context.setState({
+          isVisible: false,
+          newVariable: {
+            name: '',
+            type: 'none',
+            description: '',
+            defaultValue: ''
+          },
+          variables: [...variablesInState]
+        });
+
       } else {
         context.setState({ warningText: "Warning: variable type not choosen!" })
       }
@@ -107,17 +118,6 @@ export function createVariablesFunc(varsArr, newVar, context) {
   } else {
     context.setState({ warningText: "Warning: enter variable name!" })
   }
-
-  context.setState({
-    isVisible: false,
-    newVariable: {
-      name: '',
-      type: 'none',
-      description: '',
-      defaultValue: ''
-    },
-    variables: [...variablesInState]
-  });
   
   Blockly.Extensions.unregister("dynamic_tooltips_and_defaultValues");
   context.registerDynamicTooltipsAndDefaultValues(variablesInState);

@@ -7,7 +7,7 @@ import PopUpWindow from './components/PopUpWindow';
 import { createVariablesFunc } from './utils/utils';
 import './blocks/customblocks';
 import './generator/generator';
-import './BlocklyEditor.css';
+import './index.css';
 
 class BlocklyEditor extends React.Component {
   constructor(props) {
