@@ -1,13 +1,24 @@
 import React from 'react';
+import { createStore, combineReducers } from 'redux'
+import { Provider } from 'react-redux';
+import { reducer as formReducer } from 'redux-form'
 import BlocklyJS from 'blockly/javascript';
 import Blockly from 'blockly/core';
 import BlocklyComponent from './Blockly';
 import Toolbox from './components/Toolbox';
 import PopUpWindow from './components/PopUpWindow';
-import { createVariablesFunc } from './utils/utils';
+// import { createVariablesFunc } from './utils/utils';
 import './blocks/customblocks';
 import './generator/generator';
 import './index.css';
+
+
+
+const reducers = {
+  form: formReducer
+}
+const reducer = combineReducers(reducers)
+const store = createStore(reducer)
 
 class BlocklyEditor extends React.Component {
   constructor(props) {
@@ -17,13 +28,13 @@ class BlocklyEditor extends React.Component {
       isVisible: false,
       blocks: this.props.blocks,
       variables: JSON.parse(window.localStorage.getItem("savedVariables")) || this.props.variables,
-      newVariable: {
-        name: '',
-        type: 'none',
-        description: '',
-        defaultValue: ''
-      },
-      warningText: '',
+      // newVariable: {
+      //   name: '',
+      //   type: 'none',
+      //   description: '',
+      //   defaultValue: ''
+      // },
+      // warningText: '',
     }
   }
 
@@ -122,11 +133,11 @@ class BlocklyEditor extends React.Component {
       }) 
   }
 
-  createVariable = (e) => {
-    e.preventDefault();
-    const variable = {...this.state.newVariable};
-    createVariablesFunc(this.state.variables, variable, this);
-  }
+  // createVariable = (e) => {
+  //   e.preventDefault();
+  //   const variable = {...this.state.newVariable};
+  //   createVariablesFunc(this.state.variables, variable, this);
+  // }
 
   cancelVariableCreation = (e) => {
     e.preventDefault();
@@ -134,22 +145,22 @@ class BlocklyEditor extends React.Component {
     if (classes.contains('popup--button-cancel') || classes.contains('popup--container')) {
       this.setState({
         isVisible: false,
-        newVariable: {
-          name: '',
-          type: 'none',
-          description: '',
-          defaultValue: ''
-        },
-        warningText: ''
+        // newVariable: {
+        //   name: '',
+        //   type: 'none',
+        //   description: '',
+        //   defaultValue: ''
+        // },
+        // warningText: ''
       });
     }
   }
 
-  handleInputChange = (event) => {
-    const newVar = {};
-    newVar[event.target.id] = event.target.value;
-    this.setState({ newVariable: { ...this.state.newVariable, ...newVar }});
-  }
+  // handleInputChange = (event) => {
+  //   const newVar = {};
+  //   newVar[event.target.id] = event.target.value;
+  //   this.setState({ newVariable: { ...this.state.newVariable, ...newVar }});
+  // }
 
   componentDidMount() {
     Blockly.mainWorkspace.registerButtonCallback("createVariable", () => {
@@ -193,36 +204,41 @@ class BlocklyEditor extends React.Component {
 
   render() {
     return (
-      <div className="BlocklyEditor">
-        <header className="BlocklyEditor--header">
-          <div className="BlocklyEditor--buttons">
-            <PopUpWindow 
-              clickButton={this.createVariable} 
-              isVisible={this.state.isVisible} 
-              clickArea={this.cancelVariableCreation} 
-              values={this.state.newVariable}
-              handleInputChange={this.handleInputChange}
-              warningText={this.state.warningText}
-            />
-            <button onClick={this.generateCode}>Convert</button>
-            <button onClick={this.saveWorkspace}>Save</button>
-            <button onClick={this.clearLocalStorage}>Clear localStorage</button>
-          </div>
-          <BlocklyComponent 
-            ref={this.simpleWorkspace}
-            readOnly={false} 
-            trashcan={true} 
-            media={'media/'}
-            move={{
-              scrollbars: true,
-              drag: true,
-              wheel: true
-            }}
-            initialXml={'<xml xmlns="http://www.w3.org/1999/xhtml"></xml>'}>
-            <Toolbox blocks={this.state.blocks} variables={this.state.variables} />
-          </BlocklyComponent>
-        </header>
-      </div>
+      <Provider store={store}>
+        <div className="BlocklyEditor">
+          <header className="BlocklyEditor--header">
+            <div className="BlocklyEditor--buttons">
+              <PopUpWindow 
+                variables={this.state.variables}
+                context={this}
+                cancel={this.cancelVariableCreation.bind(this)}
+                // clickButton={this.createVariable} 
+                isVisible={this.state.isVisible} 
+                // clickArea={this.cancelVariableCreation} 
+                // values={this.state.newVariable}
+                // handleInputChange={this.handleInputChange}
+                // warningText={this.state.warningText}
+              />
+              <button onClick={this.generateCode}>Convert</button>
+              <button onClick={this.saveWorkspace}>Save</button>
+              <button onClick={this.clearLocalStorage}>Clear localStorage</button>
+            </div>
+            <BlocklyComponent 
+              ref={this.simpleWorkspace}
+              readOnly={false} 
+              trashcan={true} 
+              media={'media/'}
+              move={{
+                scrollbars: true,
+                drag: true,
+                wheel: true
+              }}
+              initialXml={'<xml xmlns="http://www.w3.org/1999/xhtml"></xml>'}>
+              <Toolbox blocks={this.state.blocks} variables={this.state.variables} />
+            </BlocklyComponent>
+          </header>
+        </div>
+      </Provider>
     );
   }
 }

@@ -1,9 +1,11 @@
 import React from 'react';
+import Form from './Form/';
 
 const PopUpWindow = (props) => {
+  
   return (
-    <div className={`popup--container  ${props.isVisible ? "visible" : "notVisible"}`} onClick={props.clickArea}>
-      <form className="popup--form">
+    <div className={`popup--container  ${props.isVisible ? "visible" : "notVisible"}`} onClick={props.cancel}>
+      {/* <form className="popup--form">
         <h3>Create new variable</h3>
         <label htmlFor="name">Enter variable name</label>
         <input
@@ -46,7 +48,8 @@ const PopUpWindow = (props) => {
           <button className="popup--button-cancel" onClick={props.clickArea}>Cancel</button>
           <p className="popup--warningText" id="warningText">{props.warningText}</p>
         </div>
-      </form>
+      </form> */}
+      <Form variables={props.variables} context={props.context} warningText={props.warningText} />
     </div>
   )
 }
