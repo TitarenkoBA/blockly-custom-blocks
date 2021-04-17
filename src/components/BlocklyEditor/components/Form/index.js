@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-import { Field, reduxForm, /*formValueSelector*/  } from 'redux-form';
-import { validate } from './formValidate'
+import { Field, reduxForm  } from 'redux-form';
 import { createVariablesFunc } from '../../utils/utils';
+import { SubmissionError } from 'redux-form'
+import i18n from "i18next";
 
 class Form extends Component {
   state = {
@@ -19,9 +19,9 @@ class Form extends Component {
     <div>
       <label>{label}</label><br />
       <Field name="type" component="select">
-        <option value="">none</option>
-        <option value="integer">integer</option>
-        <option value="string">string</option>
+        <option value="">{i18n.t("popUp.options.none")}</option>
+        <option value="integer">{i18n.t("popUp.options.integer")}</option>
+        <option value="string">{i18n.t("popUp.options.string")}</option>
       </Field>
       {touched && ((error && <div className="popup--warningText">{error}</div>))}
     </div>
@@ -40,11 +40,22 @@ class Form extends Component {
   );
   
   render() {
-    // по умолчанию handleSubmit принимает функцию обработчик
-    // reset скидывает значения до значений, заданных во время инициализации
-    // в данном случае до undefined, так как значение не задано
     const { handleSubmit, reset, context, cancel, submitting  } = this.props;
     const submit = (values) => {
+      if (!values.name) {
+        throw new SubmissionError({ name: 'Please, enter variable name!', _error: 'Creation of variable failed!' });
+      }
+      if (!values.type) {
+        throw new SubmissionError({ type: 'The type of variable is not choosen!', _error: 'Creation of variable failed!' });
+      }
+      if (!values.defaultValue) {
+        throw new SubmissionError({ defaultValue: 'Please, enter variable default value!', _error: 'Creation of variable failed!' });
+      }
+      if (values.type === "integer") {
+        if (!Number.parseInt(values.defaultValue)) {
+          throw new SubmissionError({ defaultValue: 'The value does not match the type of the variable!', _error: 'Creation of variable failed!' });
+        }
+      }
       const variables = [...this.props.variables];
       const checkingName = variables.find((item) => item.name === values.name);
       if (!checkingName) {
@@ -52,62 +63,24 @@ class Form extends Component {
         reset();
         return createVariablesFunc(variables, values, context)
       } else {
-        this.setState({ warningText: 'Warning: variable name already exists!'})
+        this.setState({ warningText:  i18n.t("popUp.warningText") })
       }
     }
     
     return (
       <form className="popup--form" >
-        {/* принимает имя поля, тип и остальные свойства, которые расмотрим позже*/}
-        <h3>Create new variable</h3>
-        {/* <label htmlFor="name">Enter variable name</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          value={this.props.values.name}
-          onChange={this.props.handleInputChange}
-        />
-        <label htmlFor="type">Choose variable type</label>
-        <select
-          name="type"
-          id="type"
-          value={this.props.values.type}
-          onChange={this.props.handleInputChange}
-        >
-          <option value="none" disabled>none</option>
-          <option value="string">string</option>
-          <option value="integer">integer</option>
-        </select>
-        <label htmlFor="defaultValue">Enter variable default value</label>
-        <input
-          type={this.props.values.type === "integer" ? "number" : "text"}
-          name="defaultValue"
-          id="defaultValue"
-          value={this.props.values.defaultValue}
-          onChange={this.props.handleInputChange}
-        />
-        <label htmlFor="description">Enter variable description</label>
-        <textarea
-          name="description"
-          id="description"
-          cols="40"
-          rows="3"
-          value={this.props.values.description}
-          onChange={this.props.handleInputChange}
-        ></textarea> */}
-        <Field name="name" component={this.renderFieldInput} label="Enter variable name" type="text" />
-        <Field name="type" component={this.renderFieldSelect} label="Choose variable type" />
-        <Field name="defaultValue" component={this.renderFieldInput} label="Enter variable default value" type="text" />
-        <Field name="description" component={this.renderFieldTextarea} label="Enter variable description"/>
-        <div className="popup--warningContainer">
+        <h3>{i18n.t("popUp.title")}</h3>
+        <Field name="name" component={this.renderFieldInput} label={i18n.t("popUp.labels.name")} type="text" />
+        <Field name="type" component={this.renderFieldSelect} label={i18n.t("popUp.labels.type")} />
+        <Field name="defaultValue" component={this.renderFieldInput} label={i18n.t("popUp.labels.defaultValue")} type="text" />
+        <Field name="description" component={this.renderFieldTextarea} label={i18n.t("popUp.labels.description")}/>
+        <div className="popup--buttonContainer">
           <button
             className="popup--button-create"
             onClick={handleSubmit(submit)}
-            // onClick={handleSubmit(this.props.clickButton)}
             type="submit"
             disabled={submitting}
-          >Create</button>
+          >{i18n.t("popUp.buttons.create")}</button>
           <button
             className="popup--button-cancel"
             onClick={() => {
@@ -116,12 +89,15 @@ class Form extends Component {
               return cancel;
             }}
             type="button"
-          >Cancel</button>
+          >{i18n.t("popUp.buttons.cancel")}</button>
           <button
             className="popup--button-reset"
-            onClick={reset}
+            onClick={() => {
+              this.setState({ warningText: '' });
+              reset()
+            }}
             type="button"
-          >Reset</button>
+          >{i18n.t("popUp.buttons.reset")}</button>
         </div>
         <p className="popup--warningText" id="warningText">{this.state.warningText}</p>
       </form>
@@ -131,17 +107,6 @@ class Form extends Component {
 
 Form = reduxForm({
   form: 'createVariableForm',
-  validate
 })(Form);
-
-// const selector = formValueSelector('createVariableForm')
-// Form = connect(
-//   state => {
-//     const variables = ''
-//     return {
-//       variables
-//     }
-//   }
-// )(Form)
 
 export default Form;

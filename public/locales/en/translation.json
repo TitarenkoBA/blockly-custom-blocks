@@ -1,0 +1,38 @@
+{ 
+  "buttons": {
+    "lang-en": "English",
+    "lang-ru": "Russian",
+    "convert": "Convert",
+    "save": "Save",
+    "clear-ls": "Clear local storage"
+  },
+  "toolbox": {
+    "categories": {
+      "blocks": "Blocks",
+      "variables": "Variables"
+    },
+    "buttons": {
+      "createVariable": "Create new variable"
+    }
+  },
+  "popUp": {
+    "title": "Create new variable",
+    "options": {
+      "none": "none",
+      "integer": "integer",
+      "string": "string"
+    },
+    "labels": {
+      "name": "Enter variable name",
+      "type": "Choose variable type",
+      "defaultValue": "Enter variable default value",
+      "description": "Enter variable description"
+    },
+    "buttons": {
+      "create": "Create",
+      "cancel": "Cancel",
+      "reset": "Reset"
+    },
+    "warningText": "Warning: variable name already exists!"
+  }
+}

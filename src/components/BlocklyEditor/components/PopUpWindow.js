@@ -4,7 +4,7 @@ import Form from './Form/';
 const PopUpWindow = (props) => {
   
   return (
-    <div className={`popup--container  ${props.isVisible ? "visible" : "notVisible"}`} onClick={props.cancel}>
+    <div className='popup--container' onClick={props.cancel}>
       {/* <form className="popup--form">
         <h3>Create new variable</h3>
         <label htmlFor="name">Enter variable name</label>

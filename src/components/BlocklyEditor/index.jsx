@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { createStore, combineReducers } from 'redux'
 import { Provider } from 'react-redux';
 import { reducer as formReducer } from 'redux-form'
@@ -7,12 +7,12 @@ import Blockly from 'blockly/core';
 import BlocklyComponent from './Blockly';
 import Toolbox from './components/Toolbox';
 import PopUpWindow from './components/PopUpWindow';
+import i18n from "i18next";
 // import { createVariablesFunc } from './utils/utils';
 import './blocks/customblocks';
 import './generator/generator';
+import './i18n';
 import './index.css';
-
-
 
 const reducers = {
   form: formReducer
@@ -25,6 +25,7 @@ class BlocklyEditor extends React.Component {
     super(props);
     this.simpleWorkspace = React.createRef();
     this.state = {
+      isLangLoaded: true,
       isVisible: false,
       blocks: this.props.blocks,
       variables: JSON.parse(window.localStorage.getItem("savedVariables")) || this.props.variables,
@@ -133,6 +134,12 @@ class BlocklyEditor extends React.Component {
       }) 
   }
 
+  registerButtonCallback(callback) {
+    Blockly.mainWorkspace.registerButtonCallback(callback, () => {
+      this.setState({ isVisible: true });
+    });
+  }
+
   // createVariable = (e) => {
   //   e.preventDefault();
   //   const variable = {...this.state.newVariable};
@@ -163,13 +170,15 @@ class BlocklyEditor extends React.Component {
   // }
 
   componentDidMount() {
-    Blockly.mainWorkspace.registerButtonCallback("createVariable", () => {
-      this.setState({isVisible: true});
-    });
+    this.registerButtonCallback("createVariable");
     this.registerGeneratorOptionsForEventOccurBlock();
     this.registerDynamicClearingTextField();
     this.registerDynamicTooltipsAndDefaultValues(this.state.variables);
     this.loadWorkspace();
+  }
+
+  componentWillUpdate() {
+    this.registerButtonCallback("createVariable");
   }
 
   componentWillUnmount() {
@@ -202,42 +211,65 @@ class BlocklyEditor extends React.Component {
     window.localStorage.removeItem("savedVariables");
   }
 
+  changeLanguage = (language) => {
+    i18n
+      .changeLanguage(language)
+      .then(() => { 
+        this.setState({ isLangLoaded: false })
+        this.setState({isLangLoaded: true})
+        this.forceUpdate();
+      });
+  };
+
+  componentWillMount() {
+    this.changeLanguage();
+  }
+
   render() {
     return (
       <Provider store={store}>
-        <div className="BlocklyEditor">
-          <header className="BlocklyEditor--header">
-            <div className="BlocklyEditor--buttons">
-              <PopUpWindow 
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className="BlocklyEditor">
+            <header className="BlocklyEditor--header">
+              <div className="BlocklyEditor--buttons">
+                <button onClick={() => this.changeLanguage("en")}>{i18n.t("buttons.lang-en")}</button>
+                <button onClick={() => this.changeLanguage("ru")}>{i18n.t("buttons.lang-ru")}</button>
+              </div>
+              { this.state.isVisible ?
+                <PopUpWindow
                 variables={this.state.variables}
                 context={this}
                 cancel={this.cancelVariableCreation.bind(this)}
                 // clickButton={this.createVariable} 
-                isVisible={this.state.isVisible} 
-                // clickArea={this.cancelVariableCreation} 
-                // values={this.state.newVariable}
-                // handleInputChange={this.handleInputChange}
-                // warningText={this.state.warningText}
-              />
-              <button onClick={this.generateCode}>Convert</button>
-              <button onClick={this.saveWorkspace}>Save</button>
-              <button onClick={this.clearLocalStorage}>Clear localStorage</button>
-            </div>
-            <BlocklyComponent 
-              ref={this.simpleWorkspace}
-              readOnly={false} 
-              trashcan={true} 
-              media={'media/'}
-              move={{
-                scrollbars: true,
-                drag: true,
-                wheel: true
-              }}
-              initialXml={'<xml xmlns="http://www.w3.org/1999/xhtml"></xml>'}>
-              <Toolbox blocks={this.state.blocks} variables={this.state.variables} />
-            </BlocklyComponent>
-          </header>
-        </div>
+                // isVisible={this.state.isVisible}
+              // clickArea={this.cancelVariableCreation} 
+              // values={this.state.newVariable}
+              // handleInputChange={this.handleInputChange}
+              // warningText={this.state.warningText}
+              /> : ''}
+              <div className="BlocklyEditor--buttons">
+                <button onClick={this.generateCode}>{i18n.t("buttons.convert")}</button>
+                <button onClick={this.saveWorkspace}>{i18n.t("buttons.save")}</button>
+                <button onClick={this.clearLocalStorage}>{i18n.t("buttons.clear-ls")}</button>
+              </div>
+              {this.state.isLangLoaded ?
+              <BlocklyComponent 
+                ref={this.simpleWorkspace}
+                readOnly={false} 
+                trashcan={true} 
+                media={'media/'}
+                move={{
+                  scrollbars: true,
+                  drag: true,
+                  wheel: true
+                }}
+                initialXml={'<xml xmlns="http://www.w3.org/1999/xhtml"></xml>'}>
+                <Toolbox blocks={this.state.blocks} variables={this.state.variables} />
+              </BlocklyComponent>
+                : ''}
+            </header>
+          </div>
+        </Suspense>
       </Provider>
     );
   }
