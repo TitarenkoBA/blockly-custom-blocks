@@ -1,7 +1,9 @@
-const sendMailField = {
-  "type": "send_mail_field",
-  "message0": "Send an email",
-  "message1": "from %1",
+import i18n from "i18next";
+
+const sendEmail = {
+  "type": "send_email",
+  "message0": `${i18n.t("blocks.sendEmail.message0")}`,
+  "message1": `${i18n.t("blocks.sendEmail.message1")} %1`,
   "args1": [
     {
       "type": "field_input",
@@ -11,7 +13,7 @@ const sendMailField = {
       "spellcheck": false
     }
   ],
-  "message2": "to %1",
+  "message2": `${i18n.t("blocks.sendEmail.message2")} %1`,
   "args2": [
     {
       "type": "field_input",
@@ -21,22 +23,22 @@ const sendMailField = {
       "spellcheck": false
     }
   ],
-  "message3": "subject: %1",
+  "message3": `${i18n.t("blocks.sendEmail.message3")} %1`,
   "args3": [
     {
       "type": "field_input",
       "name": "SUBJECT",
-      "text": "Enter subject",
+      "text": `${i18n.t("blocks.sendEmail.args3.text0")}`,
       "check": "String",
       "spellcheck": true
     }
   ],
-  "message4": "body: %1",
+  "message4": `${i18n.t("blocks.sendEmail.message4")} %1`,
   "args4": [
     {
       "type": "field_multilinetext",
       "name": "BODY",
-      "text": "Enter your message",
+      "text": `${i18n.t("blocks.sendEmail.args4.text0")}`,
       "check": "String",
       "spellcheck": true
     }
@@ -47,4 +49,4 @@ const sendMailField = {
   "nextStatement": null,
 };
 
-export default sendMailField;
+export default sendEmail;

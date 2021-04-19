@@ -33,6 +33,58 @@
       "cancel": "Cancel",
       "reset": "Reset"
     },
-    "warningText": "Warning: variable name already exists!"
+    "warningText": "Warning: variable name already exists!",
+    "errors": {
+      "name": "Please, enter variable name!",
+      "type": "The type of variable is not choosen!",
+      "defaultValue": "Please, enter variable default value!",
+      "type-value": "The value does not match the type of the variable!"
+    }
+  },
+  "blocks": {
+    "eventOccur": {
+      "message0": "Event occur",
+      "message1": "When event occurs:"
+    },
+    "createIncident": {
+      "message0": "Create an incident",
+      "message1": "subject:",
+      "message2": "body:",
+      "message3": "priority:",
+      "message4": "responsible:",
+      "args1": {
+        "text0": "Enter script"
+      },
+      "args2": {
+        "text0": "Enter your message"
+      }
+    },
+    "runTheScript": {
+      "message0": "run script",
+      "args0": {
+        "text0": "Enter your script here"
+      }
+    },
+    "sendEmail": {
+      "message0": "Send an email",
+      "message1": "from",
+      "message2": "to",
+      "message3": "subject:",
+      "message4": "body:",
+      "args3": {
+        "text0": "Enter subject"
+      },
+      "args4": {
+        "text0": "Enter your message"
+      }      
+    }
+  },
+  "variables": {
+    "set": {
+      "message0": {
+        "part1": "set",
+        "part2": "to"
+      }
+    }
   }
 }

@@ -1,11 +1,13 @@
+import i18n from "i18next";
+
 const runTheScript = {
   "type": "run_script_field",
-  "message0": "run script: %1",
+  "message0": `${i18n.t("blocks.runTheScript.message0")} %1`,
   "args0": [
     {
       "type": "field_multilinetext",
       "name": "SCRIPT",
-      "text": "Enter your script here",
+      "text": `${i18n.t("blocks.runTheScript.args0.text0")}`,
       "check": "String",
       "spellcheck": false
     }

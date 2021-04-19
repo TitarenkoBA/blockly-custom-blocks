@@ -8,7 +8,6 @@ import BlocklyComponent from './Blockly';
 import Toolbox from './components/Toolbox';
 import PopUpWindow from './components/PopUpWindow';
 import i18n from "i18next";
-// import { createVariablesFunc } from './utils/utils';
 import './blocks/customblocks';
 import './generator/generator';
 import './i18n';
@@ -29,13 +28,6 @@ class BlocklyEditor extends React.Component {
       isVisible: false,
       blocks: this.props.blocks,
       variables: JSON.parse(window.localStorage.getItem("savedVariables")) || this.props.variables,
-      // newVariable: {
-      //   name: '',
-      //   type: 'none',
-      //   description: '',
-      //   defaultValue: ''
-      // },
-      // warningText: '',
     }
   }
 
@@ -140,34 +132,15 @@ class BlocklyEditor extends React.Component {
     });
   }
 
-  // createVariable = (e) => {
-  //   e.preventDefault();
-  //   const variable = {...this.state.newVariable};
-  //   createVariablesFunc(this.state.variables, variable, this);
-  // }
-
   cancelVariableCreation = (e) => {
     e.preventDefault();
     const classes = e.target.classList;
-    if (classes.contains('popup--button-cancel') || classes.contains('popup--container')) {
+    if (classes.contains('popup__button-cancel') || classes.contains('popup__container')) {
       this.setState({
         isVisible: false,
-        // newVariable: {
-        //   name: '',
-        //   type: 'none',
-        //   description: '',
-        //   defaultValue: ''
-        // },
-        // warningText: ''
       });
     }
   }
-
-  // handleInputChange = (event) => {
-  //   const newVar = {};
-  //   newVar[event.target.id] = event.target.value;
-  //   this.setState({ newVariable: { ...this.state.newVariable, ...newVar }});
-  // }
 
   componentDidMount() {
     this.registerButtonCallback("createVariable");
@@ -230,27 +203,21 @@ class BlocklyEditor extends React.Component {
       <Provider store={store}>
         <Suspense fallback={<div>Loading...</div>}>
           <div className="BlocklyEditor">
-            <header className="BlocklyEditor--header">
-              <div className="BlocklyEditor--buttons">
-                <button onClick={() => this.changeLanguage("en")}>{i18n.t("buttons.lang-en")}</button>
-                <button onClick={() => this.changeLanguage("ru")}>{i18n.t("buttons.lang-ru")}</button>
+            <header className="BlocklyEditor__header">
+              <div className="buttons-container">
+                <button className="button" onClick={() => this.changeLanguage("en")}>{i18n.t("buttons.lang-en")}</button>
+                <button className="button" onClick={() => this.changeLanguage("ru")}>{i18n.t("buttons.lang-ru")}</button>
               </div>
               { this.state.isVisible ?
                 <PopUpWindow
                 variables={this.state.variables}
                 context={this}
                 cancel={this.cancelVariableCreation.bind(this)}
-                // clickButton={this.createVariable} 
-                // isVisible={this.state.isVisible}
-              // clickArea={this.cancelVariableCreation} 
-              // values={this.state.newVariable}
-              // handleInputChange={this.handleInputChange}
-              // warningText={this.state.warningText}
               /> : ''}
-              <div className="BlocklyEditor--buttons">
-                <button onClick={this.generateCode}>{i18n.t("buttons.convert")}</button>
-                <button onClick={this.saveWorkspace}>{i18n.t("buttons.save")}</button>
-                <button onClick={this.clearLocalStorage}>{i18n.t("buttons.clear-ls")}</button>
+              <div className="buttons-container">
+                <button className="button" onClick={this.generateCode}>{i18n.t("buttons.convert")}</button>
+                <button className="button" onClick={this.saveWorkspace}>{i18n.t("buttons.save")}</button>
+                <button className="button" onClick={this.clearLocalStorage}>{i18n.t("buttons.clear-ls")}</button>
               </div>
               {this.state.isLangLoaded ?
               <BlocklyComponent 

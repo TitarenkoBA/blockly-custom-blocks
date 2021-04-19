@@ -1,5 +1,5 @@
 export const blocks = [
-  "send_mail_field",
+  "send_email",
   "create_incident_field",
   "run_script_field",
   "event_occur",

@@ -1,5 +1,5 @@
 import * as Blockly from 'blockly/core';
-import sendMailField from './jsonBlocks/sendMailField';
+import sendEmail from './jsonBlocks/sendEmail';
 import runTheScript from './jsonBlocks/runTheScript';
 import createIncident from './jsonBlocks/createIncident';
 import eventOccur from './jsonBlocks/eventOccur'; 
@@ -9,9 +9,9 @@ import variablesGetInteger from './jsonBlocks/variablesGetInteger';
 import variablesSetInteger from './jsonBlocks/variablesSetInteger';
 import { validator } from '../utils/utils'
 
-Blockly.Blocks['send_mail_field'] = {
+Blockly.Blocks['send_email'] = {
   init: function () {
-    this.jsonInit(sendMailField);
+    this.jsonInit(sendEmail);
     const body = this.getField("BODY");
     body.maxDisplayLength = "30";
     body.maxLines_ = "5";
