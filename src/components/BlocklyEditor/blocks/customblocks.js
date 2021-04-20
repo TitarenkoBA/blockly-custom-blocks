@@ -7,6 +7,14 @@ import variablesGetString from './jsonBlocks/variablesGetString';
 import variablesSetString from './jsonBlocks/variablesSetString';
 import variablesGetInteger from './jsonBlocks/variablesGetInteger';
 import variablesSetInteger from './jsonBlocks/variablesSetInteger';
+import textCharAt from './jsonBlocks/textCharAt';
+import logicTernary from './jsonBlocks/logicTernary';
+import logicOperation from './jsonBlocks/logicOperation';
+import logicNull from './jsonBlocks/logicNull';
+import logicNegate from './jsonBlocks/logicNegate';
+import logicBoolean from './jsonBlocks/logicBoolean';
+import controlsRepeatExt from './jsonBlocks/controlsRepeatExt';
+import controlsIfElse from './jsonBlocks/controlsIfElse';
 import { validator } from '../utils/utils'
 
 Blockly.Blocks['send_email'] = {
@@ -75,5 +83,53 @@ Blockly.Blocks['variables_set_integer'] = {
     this.getField('VAR').onMouseDown_ = (e) => e.preventDefault();
     this.getField('VAR').EDITABLE = false;
     this.setColour("#4c80ba");
+  }
+};
+
+Blockly.Blocks['controls_ifelse'] = {
+  init: function () {
+    this.jsonInit(controlsIfElse);
+  }
+};
+
+Blockly.Blocks['controls_repeat_ext'] = {
+  init: function () {
+    this.jsonInit(controlsRepeatExt);
+  }
+};
+
+Blockly.Blocks['logic_boolean'] = {
+  init: function () {
+    this.jsonInit(logicBoolean);
+  }
+};
+
+Blockly.Blocks['logic_negate'] = {
+  init: function () {
+    this.jsonInit(logicNegate);
+  }
+};
+
+Blockly.Blocks['logic_null'] = {
+  init: function () {
+    this.jsonInit(logicNull);
+  }
+};
+
+Blockly.Blocks['logic_operation'] = {
+  init: function () {
+    this.jsonInit(logicOperation);
+  }
+};
+
+Blockly.Blocks['logic_ternary'] = {
+  init: function () {
+    this.jsonInit(logicTernary);
+  }
+};
+
+Blockly.Blocks['text_charAt'] = {
+  init: function () {
+    this.jsonInit(textCharAt);
   }
 };

@@ -2,8 +2,8 @@ import i18n from "i18next";
 
 const eventOccur = {
   "type": "event_occur",
-  "message0": `${i18n.t("blocks.eventOccur.message0")}`,
-  "message1": `${i18n.t("blocks.eventOccur.message1")} %1`,
+  "message0": `${i18n.t("blockly.blocks.eventOccur.message0")}`,
+  "message1": `${i18n.t("blockly.blocks.eventOccur.message1")} %1`,
   "args1": [
     {
       "type": "input_statement",

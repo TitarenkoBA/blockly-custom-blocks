@@ -2,8 +2,8 @@ import i18n from "i18next";
 
 const sendEmail = {
   "type": "send_email",
-  "message0": `${i18n.t("blocks.sendEmail.message0")}`,
-  "message1": `${i18n.t("blocks.sendEmail.message1")} %1`,
+  "message0": `${i18n.t("blockly.blocks.sendEmail.message0")}`,
+  "message1": `${i18n.t("blockly.blocks.sendEmail.message1")} %1`,
   "args1": [
     {
       "type": "field_input",
@@ -13,7 +13,7 @@ const sendEmail = {
       "spellcheck": false
     }
   ],
-  "message2": `${i18n.t("blocks.sendEmail.message2")} %1`,
+  "message2": `${i18n.t("blockly.blocks.sendEmail.message2")} %1`,
   "args2": [
     {
       "type": "field_input",
@@ -23,22 +23,22 @@ const sendEmail = {
       "spellcheck": false
     }
   ],
-  "message3": `${i18n.t("blocks.sendEmail.message3")} %1`,
+  "message3": `${i18n.t("blockly.blocks.sendEmail.message3")} %1`,
   "args3": [
     {
       "type": "field_input",
       "name": "SUBJECT",
-      "text": `${i18n.t("blocks.sendEmail.args3.text0")}`,
+      "text": `${i18n.t("blockly.blocks.sendEmail.args3.text0")}`,
       "check": "String",
       "spellcheck": true
     }
   ],
-  "message4": `${i18n.t("blocks.sendEmail.message4")} %1`,
+  "message4": `${i18n.t("blockly.blocks.sendEmail.message4")} %1`,
   "args4": [
     {
       "type": "field_multilinetext",
       "name": "BODY",
-      "text": `${i18n.t("blocks.sendEmail.args4.text0")}`,
+      "text": `${i18n.t("blockly.blocks.sendEmail.args4.text0")}`,
       "check": "String",
       "spellcheck": true
     }

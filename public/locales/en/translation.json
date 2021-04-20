@@ -1,89 +1,142 @@
 { 
-  "buttons": {
-    "lang-en": "English",
-    "lang-ru": "Russian",
-    "convert": "Convert",
-    "save": "Save",
-    "clear-ls": "Clear local storage"
-  },
-  "toolbox": {
-    "categories": {
-      "blocks": "Blocks",
-      "variables": "Variables"
-    },
+  "blockly": {
     "buttons": {
-      "createVariable": "Create new variable"
-    }
-  },
-  "popUp": {
-    "title": "Create new variable",
-    "options": {
-      "none": "none",
-      "integer": "integer",
-      "string": "string"
+      "lang-en": "English",
+      "lang-ru": "Russian",
+      "convert": "Convert",
+      "save": "Save",
+      "clear-ls": "Clear local storage"
     },
-    "labels": {
-      "name": "Enter variable name",
-      "type": "Choose variable type",
-      "defaultValue": "Enter variable default value",
-      "description": "Enter variable description"
-    },
-    "buttons": {
-      "create": "Create",
-      "cancel": "Cancel",
-      "reset": "Reset"
-    },
-    "warningText": "Warning: variable name already exists!",
-    "errors": {
-      "name": "Please, enter variable name!",
-      "type": "The type of variable is not choosen!",
-      "defaultValue": "Please, enter variable default value!",
-      "type-value": "The value does not match the type of the variable!"
-    }
-  },
-  "blocks": {
-    "eventOccur": {
-      "message0": "Event occur",
-      "message1": "When event occurs:"
-    },
-    "createIncident": {
-      "message0": "Create an incident",
-      "message1": "subject:",
-      "message2": "body:",
-      "message3": "priority:",
-      "message4": "responsible:",
-      "args1": {
-        "text0": "Enter script"
+    "toolbox": {
+      "categories": {
+        "blocks": "Blocks",
+        "variables": "Variables"
       },
-      "args2": {
-        "text0": "Enter your message"
+      "buttons": {
+        "createVariable": "Create new variable"
       }
     },
-    "runTheScript": {
-      "message0": "run script",
-      "args0": {
-        "text0": "Enter your script here"
+    "popUp": {
+      "title": "Create new variable",
+      "options": {
+        "none": "none",
+        "integer": "integer",
+        "string": "string"
+      },
+      "labels": {
+        "name": "Enter variable name",
+        "type": "Choose variable type",
+        "defaultValue": "Enter variable default value",
+        "description": "Enter variable description"
+      },
+      "buttons": {
+        "create": "Create",
+        "cancel": "Cancel",
+        "reset": "Reset"
+      },
+      "warningText": "Warning: variable name already exists!",
+      "errors": {
+        "name": "Please, enter variable name!",
+        "type": "The type of variable is not choosen!",
+        "defaultValue": "Please, enter variable default value!",
+        "type-value": "The value does not match the type of the variable!"
       }
     },
-    "sendEmail": {
-      "message0": "Send an email",
-      "message1": "from",
-      "message2": "to",
-      "message3": "subject:",
-      "message4": "body:",
-      "args3": {
-        "text0": "Enter subject"
+    "blocks": {
+      "errors": {
+        "email": "Wrong email"
       },
-      "args4": {
-        "text0": "Enter your message"
-      }      
-    }
-  },
-  "variables": {
-    "set": {
-      "message0": {
-        "part1": "set",
-        "part2": "to"
+      "eventOccur": {
+        "message0": "Event occur",
+        "message1": "When event occurs:"
+      },
+      "createIncident": {
+        "message0": "Create an incident",
+        "message1": "subject:",
+        "message2": "body:",
+        "message3": "priority:",
+        "message4": "responsible:",
+        "args1": {
+          "text0": "Enter script"
+        },
+        "args2": {
+          "text0": "Enter your message"
+        }
+      },
+      "runTheScript": {
+        "message0": "run script",
+        "args0": {
+          "text0": "Enter your script here"
+        }
+      },
+      "sendEmail": {
+        "message0": "Send an email",
+        "message1": "from",
+        "message2": "to",
+        "message3": "subject:",
+        "message4": "body:",
+        "args3": {
+          "text0": "Enter subject"
+        },
+        "args4": {
+          "text0": "Enter your message"
+        }
+      },
+      "controlsIfElse": {
+        "message0": "if",
+        "message1": "do",
+        "message2": "else"
+      },
+      "controlsRepeatExt": {
+        "message0": {
+          "part1": "repeat",
+          "part2": "times"
+        },
+        "message1": "do"
+      },
+      "logicBoolean": {
+        "options": {
+          "first": "true",
+          "second": "false"
+        }
+      },
+      "logicNegate": {
+        "message0": "not"
+      },
+      "logicNull": {
+        "message0": "null"
+      },
+      "logicOperation": {
+        "options": {
+          "first": "and",
+          "second": "or"
+        }
+      },
+      "logicTernary": {
+        "message0": "test",
+        "message1": "if true",
+        "message2": "if false"
+      },
+      "textCharAt": {
+        "message0": {
+          "part1": "in",
+          "part2": "get"
+        },
+        "options": {
+          "first": "letter #",
+          "second": "letter # from end",
+          "third": "first letter",
+          "fourth": "last letter",
+          "fifth": "random letter"
+        }
+      }
+    },
+    "variables": {
+      "set": {
+        "message0": {
+          "part1": "set",
+          "part2": "to"
+        }
       }
     }
   }

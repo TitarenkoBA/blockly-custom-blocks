@@ -27,7 +27,7 @@ class BlocklyEditor extends React.Component {
       isLangLoaded: true,
       isVisible: false,
       blocks: this.props.blocks,
-      variables: JSON.parse(window.localStorage.getItem("savedVariables")) || this.props.variables,
+      variables: this.props.variables,
     }
   }
 
@@ -169,19 +169,27 @@ class BlocklyEditor extends React.Component {
   saveWorkspace = () => {
     const xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
     const xmlText = Blockly.Xml.domToPrettyText(xmlDom);
-    window.localStorage.setItem("savedWorkspace", xmlText);
-    window.localStorage.setItem("savedVariables", JSON.stringify(this.state.variables));
+    let content = {
+      workspace: xmlText,
+      variables: this.state.variables
+    };
+    content = JSON.stringify(content);
+    window.localStorage.setItem("content", content);
   }
 
   loadWorkspace = () => {
-    const xml_text = window.localStorage.getItem("savedWorkspace") || '<xml xmlns="http://www.w3.org/1999/xhtml"></xml>';
-    const xml = Blockly.Xml.textToDom(xml_text);
-    Blockly.Xml.domToWorkspace(xml, Blockly.mainWorkspace);
+    let content = JSON.parse(window.localStorage.getItem("content")) || null;
+    if (content) {
+      const workspace = content.workspace;
+      const variables = content.variables
+      this.setState({ variables: [...variables]});
+      const xml = Blockly.Xml.textToDom(workspace);
+      Blockly.Xml.domToWorkspace(xml, Blockly.mainWorkspace);
+    }
   }
 
   clearLocalStorage = () => {
-    window.localStorage.removeItem("savedWorkspace");
-    window.localStorage.removeItem("savedVariables");
+    window.localStorage.removeItem("content");
   }
 
   changeLanguage = (language) => {
@@ -191,6 +199,7 @@ class BlocklyEditor extends React.Component {
         this.setState({ isLangLoaded: false })
         this.setState({isLangLoaded: true})
         this.forceUpdate();
+        this.loadWorkspace()
       });
   };
 
@@ -205,8 +214,8 @@ class BlocklyEditor extends React.Component {
           <div className="BlocklyEditor">
             <header className="BlocklyEditor__header">
               <div className="buttons-container">
-                <button className="button" onClick={() => this.changeLanguage("en")}>{i18n.t("buttons.lang-en")}</button>
-                <button className="button" onClick={() => this.changeLanguage("ru")}>{i18n.t("buttons.lang-ru")}</button>
+                <button className="button" onClick={() => this.changeLanguage("en")}>{i18n.t("blockly.buttons.lang-en")}</button>
+                <button className="button" onClick={() => this.changeLanguage("ru")}>{i18n.t("blockly.buttons.lang-ru")}</button>
               </div>
               { this.state.isVisible ?
                 <PopUpWindow
@@ -215,9 +224,9 @@ class BlocklyEditor extends React.Component {
                 cancel={this.cancelVariableCreation.bind(this)}
               /> : ''}
               <div className="buttons-container">
-                <button className="button" onClick={this.generateCode}>{i18n.t("buttons.convert")}</button>
-                <button className="button" onClick={this.saveWorkspace}>{i18n.t("buttons.save")}</button>
-                <button className="button" onClick={this.clearLocalStorage}>{i18n.t("buttons.clear-ls")}</button>
+                <button className="button" onClick={this.generateCode}>{i18n.t("blockly.buttons.convert")}</button>
+                <button className="button" onClick={this.saveWorkspace}>{i18n.t("blockly.buttons.save")}</button>
+                <button className="button" onClick={this.clearLocalStorage}>{i18n.t("blockly.buttons.clear-ls")}</button>
               </div>
               {this.state.isLangLoaded ?
               <BlocklyComponent 

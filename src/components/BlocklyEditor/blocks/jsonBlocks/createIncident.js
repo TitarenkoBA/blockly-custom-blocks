@@ -2,28 +2,28 @@ import i18n from "i18next";
 
 const createIncident = {
   "type": "create_incident_field",
-  "message0": `${i18n.t("blocks.createIncident.message0")}`,
-  "message1": `${i18n.t("blocks.createIncident.message1")} %1`,
+  "message0": `${i18n.t("blockly.blocks.createIncident.message0")}`,
+  "message1": `${i18n.t("blockly.blocks.createIncident.message1")} %1`,
   "args1": [
     {
       "type": "field_input",
       "name": "SUBJECT",
-      "text": `${i18n.t("blocks.createIncident.args1.text0")}`,
+      "text": `${i18n.t("blockly.blocks.createIncident.args1.text0")}`,
       "check": "String",
       "spellcheck": true
     }
   ],
-  "message2": `${i18n.t("blocks.createIncident.message2")} %1`,
+  "message2": `${i18n.t("blockly.blocks.createIncident.message2")} %1`,
   "args2": [
     {
       "type": "field_multilinetext",
       "name": "BODY",
-      "text": `${i18n.t("blocks.createIncident.args2.text0")}`,
+      "text": `${i18n.t("blockly.blocks.createIncident.args2.text0")}`,
       "check": "String",
       "spellcheck": true,
     }
   ],
-  "message3": `${i18n.t("blocks.createIncident.message3")} %1`,
+  "message3": `${i18n.t("blockly.blocks.createIncident.message3")} %1`,
   "args3": [
     {
       "type": "field_dropdown",
@@ -38,7 +38,7 @@ const createIncident = {
       ]
     }
   ],
-  "message4": `${i18n.t("blocks.createIncident.message4")} %1`,
+  "message4": `${i18n.t("blockly.blocks.createIncident.message4")} %1`,
   "args4": [
     {
       "type": "field_input",

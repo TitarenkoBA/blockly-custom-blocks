@@ -9,11 +9,15 @@ class Toolbox extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Category name={i18n.t("toolbox.categories.blocks")} toolboxitemid="categoryBlocks">
+        <Category name={i18n.t("blockly.toolbox.categories.blocks")} toolboxitemid="categoryBlocks">
           <BlocksInToolbox blocks={this.props.blocks} />
         </Category>
-        <Category name={i18n.t("toolbox.categories.variables")} toolboxitemid="categoryVars">
-          <Button callbackKey="createVariable" text={i18n.t("toolbox.buttons.createVariable")} />
+        <Category name={i18n.t("blockly.toolbox.categories.variables")} toolboxitemid="categoryVars">
+          <Button 
+            callbackKey="createVariable" 
+            text={i18n.t("blockly.toolbox.buttons.createVariable")}
+            className="button"
+          />
           <VariablesInToolbox variables={this.props.variables} />
         </Category>
       </React.Fragment>

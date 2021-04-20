@@ -2,7 +2,7 @@ import i18n from "i18next";
 
 const variablesSetString = {
   "type": "variables_set_string",
-  "message0": `${i18n.t("variables.set.message0.part1")} %1 ${i18n.t("variables.set.message0.part2")} %2`,
+  "message0": `${i18n.t("blockly.variables.set.message0.part1")} %1 ${i18n.t("blockly.variables.set.message0.part2")} %2`,
   "args0": [
     {
       "type": "field_variable",
